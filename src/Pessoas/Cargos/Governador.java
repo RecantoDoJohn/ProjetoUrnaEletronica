@@ -1,6 +1,8 @@
-package Pessoas;
+package Pessoas.Cargos;
 
-public class Governador extends Cargo{
+import Pessoas.Candidato;
+
+public class Governador extends Candidato {
     public Governador(String numero, String partido, int qntVotos, boolean eleicaoProporcional) {
         super(numero, partido, qntVotos, eleicaoProporcional);
     }
