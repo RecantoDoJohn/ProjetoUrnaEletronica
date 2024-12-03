@@ -12,6 +12,16 @@ public class Pessoa {
     }
 
 
+    public String getNome() {
+        return this.nome;
+    }
+    public String getCpf() {
+        return this.cpf;
+    }
+    public int getIdade() {
+        return this.idade;
+    }
+
     public boolean verificarCPF() {
         return false;
     }

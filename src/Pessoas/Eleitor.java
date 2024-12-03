@@ -20,6 +20,10 @@ public class Eleitor extends Pessoa{
 
     }
 
+    public Eleitor(String nome, String cpf, int idade) {
+        super(nome, cpf, idade);
+    }
+
     public void setJaVotou() {
 
     }
