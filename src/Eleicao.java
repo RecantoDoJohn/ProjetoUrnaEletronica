@@ -6,13 +6,15 @@ import java.util.Scanner;
 
 public class Eleicao {
 
-    private Eleitor[] eleitors;
+    private Eleitor[] eleitores;
     private Candidato[] candidatos;
     private Boolean encerrado = false;
 
-    public static Pessoa[] cadastrarEleitor(int quantEleitor) {
+
+    // colocar aqui como void no diagrama
+    public void cadastrarEleitor(int quantEleitor) {
         Scanner entrada = new Scanner(System.in);
-        Eleitor[] listaEleitor = new Eleitor[quantEleitor];
+        this.eleitores = new Eleitor[quantEleitor];
 
         for (int i = 0; i != quantEleitor; i++){
             System.out.println("digite o nome-");
@@ -23,15 +25,29 @@ public class Eleicao {
 
             System.out.println("digite a idade-");
             int idade = entrada.nextInt();
+            entrada.nextLine();
 
-            listaEleitor[i] = new Eleitor(nome, cpf, idade);
+            // tratamento (pode fazer melhor se achar ruim)
+            if ( nome.isEmpty() || cpf.isEmpty() ) {
+                i--;
+            } else {
+                this.eleitores[i] = new Eleitor(nome, cpf, idade);
+            }
+
+
         }
 
-        return listaEleitor;
+    }
+
+    // falta colocar no diagrama
+    public Eleitor[] getEleitores() {
+        return eleitores;
     }
 
     public void finalizarEleicao() {
         encerrado = true;
     }
+
+
 }
 
