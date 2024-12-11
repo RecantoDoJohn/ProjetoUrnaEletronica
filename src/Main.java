@@ -8,14 +8,17 @@ public class Main {
 
         Eleicao eleicao2024 = new Eleicao();
 
-        eleicao2024.cadastrarCandidato(2);
+        eleicao2024.cadastrarEleitor(2);
 
-        for (Candidato eleitor : eleicao2024.getCandidatos()) {
-            System.out.printf("NOME: %s\n",eleitor.getNome());
-            System.out.printf("cpf: %s\n",eleitor.getCpf());
-            System.out.printf("idade: %d\n", eleitor.getIdade());
-            System.out.printf("Partido: %s\n", eleitor.getPartido());
-            System.out.printf("Numero: %s\n\n", eleitor.getNumero());
-        }
+        eleicao2024.registrarVoto("123");
+//        eleicao2024.cadastrarCandidato(2);
+//
+//        for (Candidato eleitor : eleicao2024.getCandidatos()) {
+//            System.out.printf("NOME: %s\n",eleitor.getNome());
+//            System.out.printf("cpf: %s\n",eleitor.getCpf());
+//            System.out.printf("idade: %d\n", eleitor.getIdade());
+//            System.out.printf("Partido: %s\n", eleitor.getPartido());
+//            System.out.printf("Numero: %s\n\n", eleitor.getNumero());
+//        }
     }
 }

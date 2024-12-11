@@ -86,6 +86,14 @@ public class Eleicao {
         encerrado = true;
     }
 
-
+    // cpf é um place holder pro titulo eleitoral
+    public void registrarVoto(String cpf) {
+        for (int i = 0; i < eleitores.length; i++) {
+            if (eleitores[i].getCpf().equals(cpf)) {
+                System.out.println("valido");
+                break;
+            }
+        }
+    }
 }
 
