@@ -17,13 +17,13 @@ public class Eleicao {
         this.eleitores = new Eleitor[quantEleitor];
 
         for (int i = 0; i != quantEleitor; i++){
-            System.out.println("digite o nome-");
+            System.out.println("digite o nome:");
             String nome = entrada.nextLine();
 
-            System.out.println("digite o cpf-");
+            System.out.println("digite o cpf:");
             String cpf = entrada.nextLine();
 
-            System.out.println("digite a idade-");
+            System.out.println("digite a idade:");
             int idade = entrada.nextInt();
             entrada.nextLine();
 
@@ -39,9 +39,47 @@ public class Eleicao {
 
     }
 
+
+    public void cadastrarCandidato(int quantCandidatos) {
+        Scanner entrada = new Scanner(System.in);
+        this.candidatos = new Candidato[quantCandidatos];
+
+        for (int i = 0; i != quantCandidatos; i++){
+            System.out.println("digite o nome:");
+            String nome = entrada.nextLine();
+
+            System.out.println("digite o cpf:");
+            String cpf = entrada.nextLine();
+
+            System.out.println("digite a idade:");
+            int idade = entrada.nextInt();
+            entrada.nextLine();
+
+            System.out.println("digite o numero:");
+            String numero = entrada.nextLine();
+
+            System.out.println("digite o partido:");
+            String partido = entrada.nextLine();
+
+            // tratamento (pode fazer melhor se achar ruim)
+            if ( nome.isEmpty() || cpf.isEmpty() ) {
+                i--;
+            } else {
+                this.candidatos[i] = new Candidato(nome, cpf, idade, numero, partido);
+            }
+
+
+        }
+
+    }
+
     // falta colocar no diagrama
     public Eleitor[] getEleitores() {
         return eleitores;
+    }
+
+    public Candidato[] getCandidatos() {
+        return candidatos;
     }
 
     public void finalizarEleicao() {
