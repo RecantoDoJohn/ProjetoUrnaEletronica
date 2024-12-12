@@ -32,10 +32,11 @@ public class Eleicao {
     }
 
     // cpf é um place holder pro titulo eleitoral
-    public void registrarVoto(String cpf) {
+    public void registrarVoto(String tituloEleitoral) {
         for (int i = 0; i < eleitores.size(); i++) {
             Eleitor eleitor = eleitores.get(i);
-            if (eleitor.getCpf().equals(cpf)) {
+
+            if (eleitor.getTituloEleitoral().equals(tituloEleitoral)) {
                 System.out.println("valido");
                 System.out.println(eleitor.getNome());
                 // eleitor.votar(); // ainda n existe esse metodo :O

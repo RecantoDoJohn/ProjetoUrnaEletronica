@@ -9,7 +9,7 @@ public class Eleitor extends Pessoa{
     private boolean jaVotou;
 
 
-    public Eleitor(int zona, int secao, String municipio, String uf, String tituloEleitoral, boolean jaVotou) {
+    public Eleitor(int zona, int secao, String municipio, String uf, String tituloEleitoral) {
         super(tituloEleitoral, municipio, secao);
         this.zona = zona;
         this.secao = secao;
@@ -20,8 +20,13 @@ public class Eleitor extends Pessoa{
 
     }
 
-    public Eleitor(String nome, String cpf, int idade) {
+    public Eleitor(String nome, String cpf, int idade, String tituloEleitoral) {
         super(nome, cpf, idade);
+        this.tituloEleitoral = tituloEleitoral;
+    }
+
+    public String getTituloEleitoral() {
+        return tituloEleitoral;
     }
 
     public void setJaVotou() {
