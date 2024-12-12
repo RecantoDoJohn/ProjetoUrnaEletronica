@@ -39,23 +39,26 @@ public class Eleicao {
 
         String voto = entrada.nextLine();
 
+
+
+
         for (int i = 0; i < candidatos.size(); i++) {
             Candidato candidato = candidatos.get(i);
 
             if (voto.equals(candidato.getNumero())) {
                 candidato.receberVoto();
                 break;
-            }
 
+            }
             if (voto.equals("branco")) {
                 votoBranco++;
                 break;
-            } else {
-                votoNulo++;
-                break;
             }
-        }
+            else if (i + 1 == candidatos.size()) {
+                votoNulo++;
+            }
 
+        }
 
     }
 
