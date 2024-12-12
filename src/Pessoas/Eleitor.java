@@ -25,7 +25,7 @@ public class Eleitor extends Pessoa{
     }
 
     public void setJaVotou() {
-
+        this.jaVotou = true;
     }
 
     public void votar() {
