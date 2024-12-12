@@ -1,5 +1,7 @@
 package Pessoas;
 
+import java.util.Scanner;
+
 public class Eleitor extends Pessoa{
     private int zona;
     private int secao;
@@ -33,9 +35,11 @@ public class Eleitor extends Pessoa{
         this.jaVotou = true;
     }
 
-    public void votar() {
-
+    public boolean getJaVotou() {
+        return jaVotou;
     }
+
+
 
     public boolean verificarTitulo() {
         return false;

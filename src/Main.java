@@ -23,11 +23,17 @@ public class Main {
         Candidato naruto = new Presidente("Naruto", "777", 45, "55", "Konoha", false);
         eleicao2024.cadastrarCandidato(naruto);
 
-
         // votar
-        eleicao2024.registrarVoto("123");
-        eleicao2024.registrarVoto("009");
-        eleicao2024.registrarVoto("009");
+        eleicao2024.registrarVoto("0477");
+        eleicao2024.registrarVoto("1234");
+        eleicao2024.registrarVoto("2783");
+        eleicao2024.registrarVoto("5321");
+        eleicao2024.registrarVoto("6421");
+
+
+        eleicao2024.getVotos();
+
+
 
     }
 }

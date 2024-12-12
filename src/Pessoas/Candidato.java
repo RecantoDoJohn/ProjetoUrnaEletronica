@@ -12,9 +12,6 @@ public class Candidato extends Pessoa {
         this.partido = partido;
         this.eleicaoProporcional = eleicaoProporcional;
         this.qntVotos = 0;
-
-//        n sei como pega booleano no scaner :p na real sei mas mo preguiça
-//        this.eleicaoProporcional = eleicaoProporcional;
     }
 
     public void receberVoto() {
@@ -27,5 +24,9 @@ public class Candidato extends Pessoa {
 
     public String getPartido() {
         return partido;
+    }
+
+    public int getQntVotos() {
+        return qntVotos;
     }
 }
