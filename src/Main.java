@@ -9,6 +9,7 @@ public class Main {
 
         Eleicao eleicao2024 = new Eleicao();
 
+
         // eleitores
         eleicao2024.cadastrarEleitor(new Eleitor("joao manuel", "009", 19, "0477"));
         eleicao2024.cadastrarEleitor(new Eleitor("bento kaue", "008", 19, "1234"));
