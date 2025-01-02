@@ -1,6 +1,7 @@
 import Pessoas.Candidato;
 import Pessoas.Cargos.Presidente;
 import Pessoas.Eleitor;
+import Pessoas.Partido;
 
 public class Main {
     public static void main(String[] arg) {
@@ -16,11 +17,17 @@ public class Main {
         eleicao2024.cadastrarEleitor(new Eleitor("sidney", "005", 23, "5321"));
 
 
+        // partidos
+        Partido ligaDaJustica = new Partido("Liga da Justiça", "54");
+        Partido konoha = new Partido("Konoha", "45");
+
+
+
         // candidatos
-        Candidato batman = new Presidente("Batman", "999", 54, "24", "Liga da justica", false);
+        Candidato batman = new Presidente("Batman", "999", 54, "24", ligaDaJustica, false);
         eleicao2024.cadastrarCandidato(batman);
 
-        Candidato naruto = new Presidente("Naruto", "777", 45, "55", "Konoha", false);
+        Candidato naruto = new Presidente("Naruto", "777", 45, "55", konoha, false);
         eleicao2024.cadastrarCandidato(naruto);
 
         // votar
