@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] arg) {
 
 
-        Eleicao eleicao2024 = new Eleicao();
+        Eleicao eleicao2024 = new Eleicao(false);
 
 
         // eleitores
@@ -40,8 +40,5 @@ public class Main {
 
 
         eleicao2024.getVotos();
-
-
-
     }
 }

@@ -1,6 +1,7 @@
 import Pessoas.Candidato;
 import Pessoas.Eleitor;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,10 +9,17 @@ public class Eleicao {
 
     private ArrayList<Eleitor> eleitores = new ArrayList<>();
     private ArrayList<Candidato> candidatos = new ArrayList<>();
-    private Boolean encerrado = false;
+    private Boolean encerrado;
+    private static final LocalTime horarioDeAbertura = LocalTime.of(8,0);
+    private static final LocalTime horarioDeFechamento = LocalTime.of(18,0);
     private int votoNulo = 0;
     private int votoBranco = 0;
 
+
+    public Eleicao(Boolean encerrado) {
+        this.encerrado = encerrado;
+        urnaberta();
+    }
 
     public void cadastrarEleitor(Eleitor novoEleitor) {
         this.eleitores.add(novoEleitor);
@@ -21,7 +29,6 @@ public class Eleicao {
         this.candidatos.add(novoCandidato);
     }
 
-    // falta colocar no diagrama
     public ArrayList<Eleitor> getEleitores() {
         return eleitores;
     }
@@ -30,17 +37,18 @@ public class Eleicao {
         return candidatos;
     }
 
-    public void finalizarEleicao() {
+    private void finalizarEleicao() {
         encerrado = true;
     }
 
-    public void votar() {
+    private void abrirEleicao() {
+        encerrado = false;
+    }
+
+    private void votar() {
         Scanner entrada = new Scanner(System.in);
 
         String voto = entrada.nextLine();
-
-
-
 
         for (int i = 0; i < candidatos.size(); i++) {
             Candidato candidato = candidatos.get(i);
@@ -56,31 +64,36 @@ public class Eleicao {
             }
             else if (i + 1 == candidatos.size()) {
                 votoNulo++;
+
             }
 
         }
+        urnaberta();
 
     }
 
-    // cpf é um place holder pro titulo eleitoral
     public void registrarVoto(String tituloEleitoral) {
-        for (int i = 0; i < eleitores.size(); i++) {
-            Eleitor eleitor = eleitores.get(i);
 
-            // verificar se o titulo esta na lista de eleitores
-            if (eleitor.getTituloEleitoral().equals(tituloEleitoral)) {
+        if (!this.encerrado) {
+            for (int i = 0; i < eleitores.size(); i++) {
+                Eleitor eleitor = eleitores.get(i);
 
-                if (eleitor.getJaVotou()) {
+                // verificar se o titulo esta na lista de eleitores
+                if (eleitor.getTituloEleitoral().equals(tituloEleitoral)) {
+
+                    if (eleitor.getJaVotou()) {
+                        break;
+                    } else {
+                        System.out.println(eleitor.getNome());
+                        votar();
+                        eleitor.setJaVotou();
+                        System.out.println("Voto contabilizado");
+                    }
                     break;
-                } else {
-                    System.out.println(eleitor.getNome());
-                    votar();
-                    eleitor.setJaVotou();
-                    System.out.println("Voto contabilizado");
                 }
-                break;
             }
         }
+
     }
 
     public void getVotos() {
@@ -92,5 +105,15 @@ public class Eleicao {
         System.out.printf("Brancos: %d\n", votoBranco);
         System.out.printf("Nulos: %d\n", votoNulo);
     }
+
+    public void urnaberta() {
+        LocalTime horaAgora = LocalTime.now();
+
+        if (horaAgora.isBefore(horarioDeAbertura) || horaAgora.isAfter(horarioDeFechamento)) {
+            finalizarEleicao();
+        }
+
+    }
+
 }
 
