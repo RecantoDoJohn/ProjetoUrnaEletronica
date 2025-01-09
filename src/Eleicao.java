@@ -18,7 +18,7 @@ public class Eleicao {
 
     public Eleicao(Boolean encerrado) {
         this.encerrado = encerrado;
-        urnaberta();
+        verificarHorario();
     }
 
     public void cadastrarEleitor(Eleitor novoEleitor) {
@@ -68,7 +68,7 @@ public class Eleicao {
             }
 
         }
-        urnaberta();
+        verificarHorario();
 
     }
 
@@ -106,7 +106,7 @@ public class Eleicao {
         System.out.printf("Nulos: %d\n", votoNulo);
     }
 
-    public void urnaberta() {
+    public void verificarHorario() {
         LocalTime horaAgora = LocalTime.now();
 
         if (horaAgora.isBefore(horarioDeAbertura) || horaAgora.isAfter(horarioDeFechamento)) {
