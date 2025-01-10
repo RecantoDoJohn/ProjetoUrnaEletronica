@@ -4,10 +4,10 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class tecladoNumerico extends JPanel {
-    private campoNumero campoNumero;
+public class TecladoNumerico extends JPanel {
+    private CampoNumero campoNumero;
 
-    public tecladoNumerico(campoNumero campoNumero) {
+    public TecladoNumerico(CampoNumero campoNumero) {
         this.campoNumero = campoNumero;
         this.setBounds(50, 350, 300, 300);
         this.setLayout(new GridLayout(4, 3, 10, 10));

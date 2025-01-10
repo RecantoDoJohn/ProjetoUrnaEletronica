@@ -3,8 +3,8 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 
-public class telaCadidato extends JTextArea {
-    public telaCadidato() {
+public class TelaCadidato extends JTextArea {
+    public TelaCadidato() {
         this.setFont(new Font("Arial", Font.BOLD, 20));
         this.setLineWrap(true);
         this.setWrapStyleWord(true);

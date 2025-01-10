@@ -3,9 +3,9 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 
-public class campoNumero extends JTextField {
+public class CampoNumero extends JTextField {
 
-    public campoNumero() {
+    public CampoNumero() {
 
         this.setFont(new Font("Arial",Font.BOLD, 35));
         this.setEditable(false);

@@ -1,15 +1,17 @@
 package View;
 
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.HashMap;
 
+// setar classe teste para candidatos
+// votos predifinidos (magicos)
+
 public class InterfaceUrna {
 
-    public janelaUrna janelaUrna;
-    private campoNumero campoNumero;
+    public JanelaUrna janelaUrna;
+    private CampoNumero campoNumero;
     private JTextArea telaCandidato;
     private JLabel fotoCandidato;
     private HashMap<String, String> candidatos;
@@ -17,25 +19,25 @@ public class InterfaceUrna {
 
     public InterfaceUrna() {
         // Configuração da Janela
-        janelaUrna = new janelaUrna();
+        janelaUrna = new JanelaUrna();
 
         // Tela de exibição
-        JPanel painelTela = new painelTela();
+        JPanel painelTela = new PainelTela();
 
 
-        campoNumero = new campoNumero();
+        campoNumero = new CampoNumero();
         painelTela.add(campoNumero);
 
-        telaCandidato = new telaCadidato();
+        telaCandidato = new TelaCadidato();
         painelTela.add(telaCandidato);
 
-        fotoCandidato = new fotoCandidato();
+        fotoCandidato = new FotoCandidato();
         painelTela.add(fotoCandidato);
 
         janelaUrna.add(painelTela);
 
         // Teclado numérico
-        JPanel painelNumerico = new tecladoNumerico(campoNumero);
+        JPanel painelNumerico = new TecladoNumerico(campoNumero);
         janelaUrna.add(painelNumerico);
 
         // Botões de ação
@@ -60,6 +62,8 @@ public class InterfaceUrna {
         // Configuração dos candidatos e suas fotos
         configurarCandidatos();
         configurarFotos();
+        // tem que ver essa parte, pois os canditados vao ser usados em diversas partes
+        // provavelmente vamo colocar uma array de canditados e o tipo de eleicao no construtor dessa interface
     }
 
 
@@ -124,10 +128,8 @@ public class InterfaceUrna {
     }
 
     public static void main(String[] args) {
-
-            InterfaceUrna urna = new InterfaceUrna();
-            urna.janelaUrna.setVisible(true);
-
+        InterfaceUrna urna = new InterfaceUrna();
+        urna.janelaUrna.setVisible(true);
     }
 }
 
