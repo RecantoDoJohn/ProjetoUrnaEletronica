@@ -1,25 +1,28 @@
 package View;
 
+import Eleicao.Eleicao;
+import Pessoas.Candidato;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.util.HashMap;
+
 
 public class PainelBotAcoes extends JPanel {
 
     private CampoNumero campoNumero;
     private TelaCadidato telaCadidato;
     private FotoCandidato fotoCandidato;
+    private Eleicao eleicao;
 
-    public PainelBotAcoes(TelaCadidato telaCadidato, CampoNumero campoNumero, FotoCandidato fotoCandidato) {
+    public PainelBotAcoes(TelaCadidato telaCadidato, CampoNumero campoNumero, FotoCandidato fotoCandidato, Eleicao eleicao) {
         this.setBounds(400, 350, 150, 300);
         this.setLayout(new GridLayout(3, 1, 10, 10));
         this.telaCadidato = telaCadidato;
         this.campoNumero = campoNumero;
         this.fotoCandidato = fotoCandidato;
+        this.eleicao = eleicao;
 
-        this.fotoCandidato.configurarCandidatos();
-        this.fotoCandidato.configurarFotos();
 
         JButton botaoBranco = criarBotaoAcao("BRANCO", Color.WHITE, Color.BLACK);
         botaoBranco.addActionListener(e -> votoBranco());
@@ -50,12 +53,14 @@ public class PainelBotAcoes extends JPanel {
         this.telaCadidato.setText("VOTO EM BRANCO REGISTRADO");
         campoNumero.setText("");
         fotoCandidato.setIcon(null);
+        eleicao.addVotoBranco();
     }
 
     private void corrigirVoto() {
         this.campoNumero.setText("");
         this.telaCadidato.setText("SEU VOTO PARA");
         this.fotoCandidato.setIcon(null);
+        eleicao.getVotos();
     }
 
     private void confirmarVoto() {
@@ -65,16 +70,18 @@ public class PainelBotAcoes extends JPanel {
             this.fotoCandidato.setIcon(null);
         }
 
-        String candidato = fotoCandidato.candidatos.get(numero);
-        String caminhoFoto = fotoCandidato.fotos.get(numero);
+        Candidato candidato = eleicao.getCandidatos().get(numero);
 
         if (candidato != null) {
-            telaCadidato.setText("VOTO CONFIRMADO PARA:\n" + candidato);
-            fotoCandidato.setIcon(new ImageIcon(new ImageIcon(caminhoFoto).getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH)));
+            candidato.receberVoto();
+            telaCadidato.setText("VOTO CONFIRMADO PARA:\n" + candidato.getNome());
+            fotoCandidato.setIcon(new ImageIcon(new ImageIcon(candidato.getLocalImagem()).getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH)));
         } else {
-            telaCadidato.setText("CANDIDATO INEXISTENTE!");
+            eleicao.addVotoNulo();
+            telaCadidato.setText("VOTO NULO");
             fotoCandidato.setIcon(null);
         }
+        this.campoNumero.setText("");
 
     }
 }

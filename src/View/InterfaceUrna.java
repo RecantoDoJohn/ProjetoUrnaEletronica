@@ -1,18 +1,22 @@
 package View;
 
 import javax.swing.*;
+import Eleicao.Eleicao;
 
 // setar classe teste para candidatos
 // votos predifinidos (magicos)
 
 public class InterfaceUrna {
 
-    public JanelaUrna janelaUrna;
+    private JanelaUrna janelaUrna;
     private CampoNumero campoNumero;
     private JTextArea telaCandidato;
     private JLabel fotoCandidato;
+    protected Eleicao eleicao;
 
-    public InterfaceUrna() {
+    public InterfaceUrna(Eleicao eleicao) {
+        this.eleicao = eleicao;
+
         // Configuração da Janela
         janelaUrna = new JanelaUrna();
 
@@ -26,7 +30,7 @@ public class InterfaceUrna {
         telaCandidato = new TelaCadidato();
         painelTela.add(telaCandidato);
 
-        fotoCandidato = new FotoCandidato();
+        fotoCandidato = new FotoCandidato(eleicao);
         painelTela.add(fotoCandidato);
 
         janelaUrna.add(painelTela);
@@ -36,16 +40,13 @@ public class InterfaceUrna {
         janelaUrna.add(painelNumerico);
 
         // Botões de ação
-        JPanel painelAcoes = new PainelBotAcoes((TelaCadidato) telaCandidato, campoNumero, (FotoCandidato) fotoCandidato);
+        JPanel painelAcoes = new PainelBotAcoes((TelaCadidato) telaCandidato, campoNumero, (FotoCandidato) fotoCandidato, eleicao);
         janelaUrna.add(painelAcoes);
-
-//        // tem que ver essa parte, pois os canditados vao ser usados em diversas partes
-//        // provavelmente vamo colocar uma array de canditados e o tipo de eleicao no construtor dessa interface
     }
 
-    public static void main(String[] args) {
-        InterfaceUrna urna = new InterfaceUrna();
-        urna.janelaUrna.setVisible(true);
+    public void visivel(Boolean visibilidade) {
+        this.janelaUrna.setVisible(visibilidade);
     }
+
 }
 

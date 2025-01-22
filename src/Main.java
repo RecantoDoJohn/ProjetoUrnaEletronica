@@ -1,7 +1,9 @@
+import Eleicao.Eleicao;
 import Pessoas.Candidato;
 import Pessoas.Cargos.Presidente;
 import Pessoas.Eleitor;
 import Pessoas.Partido;
+import View.InterfaceUrna;
 
 public class Main {
     public static void main(String[] arg) {
@@ -25,20 +27,14 @@ public class Main {
 
 
         // candidatos
-        Candidato batman = new Presidente("Batman", "999", 54, "24", ligaDaJustica, false);
+        Candidato batman = new Presidente("Gustavo Lima", "999", 54, "77", ligaDaJustica, false, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img_1.png");
         eleicao2024.cadastrarCandidato(batman);
 
-        Candidato naruto = new Presidente("Naruto", "777", 45, "55", konoha, false);
+        Candidato naruto = new Presidente("Patati e patata", "777", 45, "55", konoha, false, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img.png");
         eleicao2024.cadastrarCandidato(naruto);
 
-        // votar
-        eleicao2024.registrarVoto("0477");
-        eleicao2024.registrarVoto("1234");
-        eleicao2024.registrarVoto("2783");
-        eleicao2024.registrarVoto("5321");
-        eleicao2024.registrarVoto("6421");
 
-
-        eleicao2024.getVotos();
+        InterfaceUrna urna = new InterfaceUrna(eleicao2024);
+        urna.visivel(true);
     }
 }
