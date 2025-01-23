@@ -60,7 +60,7 @@ public class PainelBotAcoes extends JPanel {
         this.campoNumero.setText("");
         this.telaCadidato.setText("SEU VOTO PARA");
         this.fotoCandidato.setIcon(null);
-        eleicao.getVotos();
+        eleicao.gerarRelatorio();
     }
 
     private void confirmarVoto() {
@@ -74,7 +74,7 @@ public class PainelBotAcoes extends JPanel {
 
         if (candidato != null) {
             candidato.receberVoto();
-            telaCadidato.setText("VOTO CONFIRMADO PARA:\n" + candidato.getNome());
+            telaCadidato.setText("VOTO CONFIRMADO PARA:\n" + candidato.getNome() + " - "+ candidato.getPartido().getNome());
             fotoCandidato.setIcon(new ImageIcon(new ImageIcon(candidato.getLocalImagem()).getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH)));
         } else {
             eleicao.addVotoNulo();

@@ -4,9 +4,7 @@ import Pessoas.Candidato;
 import Pessoas.Eleitor;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Eleicao {
 // falta colocar os novos tipos dos eleitores e canditatos no diagrama
@@ -109,7 +107,7 @@ public class Eleicao {
         votoNulo++;
     }
 
-    public void getVotos() {
+    public void gerarRelatorio() {
         for (Candidato candidato : candidatos.values()) {
             System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
         }

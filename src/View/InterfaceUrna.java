@@ -8,11 +8,14 @@ import Eleicao.Eleicao;
 
 public class InterfaceUrna {
 
+    private Eleicao eleicao;
+    private PainelTela painelTela;
     private JanelaUrna janelaUrna;
     private CampoNumero campoNumero;
-    private JTextArea telaCandidato;
-    private JLabel fotoCandidato;
-    protected Eleicao eleicao;
+    private TelaCadidato telaCandidato;
+    private FotoCandidato fotoCandidato;
+    private PainelBotAcoes painelBotAcoes;
+    private TecladoNumerico tecladoNumerico;
 
     public InterfaceUrna(Eleicao eleicao) {
         this.eleicao = eleicao;
@@ -21,7 +24,7 @@ public class InterfaceUrna {
         janelaUrna = new JanelaUrna();
 
         // Tela de exibição
-        JPanel painelTela = new PainelTela();
+        painelTela = new PainelTela();
 
 
         campoNumero = new CampoNumero();
@@ -30,18 +33,18 @@ public class InterfaceUrna {
         telaCandidato = new TelaCadidato();
         painelTela.add(telaCandidato);
 
-        fotoCandidato = new FotoCandidato(eleicao);
+        fotoCandidato = new FotoCandidato();
         painelTela.add(fotoCandidato);
 
         janelaUrna.add(painelTela);
 
         // Teclado numérico
-        JPanel painelNumerico = new TecladoNumerico(campoNumero);
-        janelaUrna.add(painelNumerico);
+        tecladoNumerico = new TecladoNumerico(campoNumero);
+        janelaUrna.add(tecladoNumerico);
 
         // Botões de ação
-        JPanel painelAcoes = new PainelBotAcoes((TelaCadidato) telaCandidato, campoNumero, (FotoCandidato) fotoCandidato, eleicao);
-        janelaUrna.add(painelAcoes);
+        painelBotAcoes = new PainelBotAcoes(telaCandidato, campoNumero, fotoCandidato, this.eleicao);
+        janelaUrna.add(painelBotAcoes);
     }
 
     public void visivel(Boolean visibilidade) {
