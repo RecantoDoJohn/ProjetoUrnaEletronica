@@ -1,10 +1,7 @@
 package Eleicao;
 
 import Pessoas.Candidato;
-import Pessoas.Cargos.DeputadoEstadual;
-import Pessoas.Cargos.DeputadoFederal;
-import Pessoas.Cargos.Governador;
-import Pessoas.Cargos.Presidente;
+import Pessoas.Cargos.*;
 import Pessoas.Eleitor;
 
 import java.time.LocalTime;
@@ -19,7 +16,7 @@ public class Eleicao {
     private static final LocalTime horarioDeFechamento = LocalTime.of(18,0);
     private int votoNulo;
     private int votoBranco;
-    private int ordemVotacao;
+
 
 
     // ver se isso é jogo ou brisa
@@ -27,7 +24,8 @@ public class Eleicao {
     private HashMap<String, DeputadoFederal> deputadoFederalHashMap;
     private HashMap<String, Governador> governadorHashMap;
     private HashMap<String, Presidente> presidenteHashMap;
-    private HashMap<String, Candidato> candidatoHashMap;
+    private HashMap<String, Senador> senadorHashMap;
+
 
     public Eleicao(Boolean encerrado) {
         this.encerrado = encerrado;
@@ -35,10 +33,15 @@ public class Eleicao {
         this.candidatos = new HashMap<>();
         this.eleitores = new HashMap<>();
 
+        this.deputadoEstadualHashMap = new HashMap<>();
+        this.deputadoFederalHashMap = new HashMap<>();
+        this.governadorHashMap = new HashMap<>();
+        this.presidenteHashMap = new HashMap<>();
+        this.senadorHashMap = new HashMap<>();
+
         this.votoNulo = 0;
         this.votoBranco = 0;
 
-        this.ordemVotacao = 0;
 
         /* teoricamente essa é a ordem:
         0 Deputado Federal: é o primeiro cargo a ser votado, que tem 4 dígitos, representando o número do candidato;
@@ -57,6 +60,34 @@ public class Eleicao {
         this.candidatos.put(novoCandidato.getNumero(), novoCandidato);
     }
 
+    public void cadastrarPresidente(Presidente presidente) {
+        this.candidatos.put(presidente.getNumero(), (Candidato) presidente);
+        this.presidenteHashMap.put(presidente.getNumero(), presidente);
+    }
+
+    public void cadastrarGovernador(Governador governador) {
+        this.candidatos.put(governador.getNumero(), (Candidato) governador);
+        this.governadorHashMap.put(governador.getNumero(), governador);
+    }
+
+    public void cadastrarSenador(Senador senador) {
+        this.candidatos.put(senador.getNumero(), (Candidato) senador);
+        this.senadorHashMap.put(senador.getNumero(), senador);
+    }
+
+    public void cadastrarDeputadoEstatual(DeputadoEstadual deputadoEstadual) {
+        this.candidatos.put(deputadoEstadual.getNumero(), (Candidato) deputadoEstadual);
+        this.deputadoEstadualHashMap.put(deputadoEstadual.getNumero(), deputadoEstadual);
+    }
+
+    public void cadastrarDeputadoFederal(DeputadoFederal deputadoFederal) {
+        this.candidatos.put(deputadoFederal.getNumero(), (Candidato) deputadoFederal);
+        this.deputadoFederalHashMap.put(deputadoFederal.getNumero(), deputadoFederal);
+    }
+
+
+
+
     public HashMap<String, Eleitor> getEleitores() {
         return eleitores;
     }
@@ -74,18 +105,24 @@ public class Eleicao {
     }
 
 
+    // metedo que ele verifica qual ordem o eleitor ta tlg
+//    public void
+
     // fazer uma funcao que receba o numero do candidato e o titulo e add voto pra algum bagulho
     public void registrarVoto(String numeroCandidato, String tituloEleitor) {
-        Eleitor eleitor = this.eleitores.get(tituloEleitor);
+        Eleitor eleitor = this.getEleitores().get(tituloEleitor);
         Candidato candidato = this.getCandidatos().get(numeroCandidato);
 
-        if (eleitor != null && !eleitor.getJaVotou()) {
+        // verificar
+        if (eleitor != null && eleitor.getOrdemVotacao() != 5) {
             if (candidato != null) {
-                candidato.receberVoto();
+                if (eleitor.getOrdemVotacao() == candidato.getOrdem()) {
+                    candidato.receberVoto();
+                }
             } else {
                 this.addVotoNulo();
             }
-            eleitor.setJaVotou();
+            eleitor.avancarVoto();
         }
     }
 

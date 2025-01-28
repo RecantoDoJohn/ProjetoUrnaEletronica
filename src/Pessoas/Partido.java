@@ -1,5 +1,6 @@
 package Pessoas;
 
+//
 public class Partido {
     private String nomePartido;
     private String numeroPartido;

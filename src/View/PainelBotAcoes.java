@@ -73,7 +73,7 @@ public class PainelBotAcoes extends JPanel {
         Candidato candidato = eleicao.getCandidatos().get(numero);
 
         if (candidato != null) {
-            candidato.receberVoto();
+            eleicao.registrarVoto(candidato.getNumero(), numero);
             telaCadidato.setText("VOTO CONFIRMADO PARA:\n" + candidato.getNome() + " - "+ candidato.getPartido().getNome());
             fotoCandidato.atualizarFoto(numero);
         } else {

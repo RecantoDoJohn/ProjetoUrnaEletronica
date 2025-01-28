@@ -1,6 +1,6 @@
 import Eleicao.Eleicao;
 import Pessoas.Candidato;
-import Pessoas.Cargos.Presidente;
+import Pessoas.Cargos.*;
 import Pessoas.Eleitor;
 import Pessoas.Partido;
 import View.InterfaceUrna;
@@ -27,11 +27,32 @@ public class Main {
 
 
         // candidatos
-        Candidato batman = new Presidente("Gustavo Lima", "999", 54, "77", tchetcherere, false, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img_1.png");
-        eleicao2024.cadastrarCandidato(batman);
+        Presidente batman = new Presidente("Gustavo Lima", "999", 54, "77", tchetcherere, false, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img_1.png");
+        eleicao2024.cadastrarPresidente(batman);
 
-        Candidato naruto = new Presidente("Patati e patata", "777", 45, "54", sorrireBrincar, false, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img.png");
-        eleicao2024.cadastrarCandidato(naruto);
+        Presidente naruto = new Presidente("Patati e patata", "777", 45, "54", sorrireBrincar, false, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img.png");
+        eleicao2024.cadastrarPresidente(naruto);
+
+        DeputadoEstadual chatgpt = new DeputadoEstadual("ChatGPT estadual", "12345", 3, "12345", tchetcherere, true,"oi");
+        eleicao2024.cadastrarDeputadoEstatual(chatgpt);
+
+        DeputadoFederal chatgptferderal = new DeputadoFederal("ChatGPT federal", "1234", 3, "1234", tchetcherere, true,"oi");
+        eleicao2024.cadastrarDeputadoFederal(chatgptferderal);
+
+        Senador chatgptsenador = new Senador("ChatGPT sennadir", "1223", 3, "123", tchetcherere, true,"oi");
+        eleicao2024.cadastrarSenador(chatgptsenador);
+
+        Governador chatgptGoverbador = new Governador("ChatGPT governador", "1223", 3, "12", tchetcherere, true,"oi");
+        eleicao2024.cadastrarGovernador(chatgptGoverbador);
+
+//        eleicao2024.registrarVoto("1234", "0477");
+//        eleicao2024.registrarVoto("12345", "0477");
+//        eleicao2024.registrarVoto("123", "0477");
+//        eleicao2024.registrarVoto("12", "0477");
+//        eleicao2024.registrarVoto("77", "0477");
+//        eleicao2024.registrarVoto("77", "0477");
+
+        eleicao2024.gerarRelatorio();
 
 
         InterfaceUrna urna = new InterfaceUrna(eleicao2024);
