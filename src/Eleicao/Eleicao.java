@@ -1,6 +1,10 @@
 package Eleicao;
 
 import Pessoas.Candidato;
+import Pessoas.Cargos.DeputadoEstadual;
+import Pessoas.Cargos.DeputadoFederal;
+import Pessoas.Cargos.Governador;
+import Pessoas.Cargos.Presidente;
 import Pessoas.Eleitor;
 
 import java.time.LocalTime;
@@ -13,15 +17,36 @@ public class Eleicao {
     private Boolean encerrado;
     private static final LocalTime horarioDeAbertura = LocalTime.of(8,0);
     private static final LocalTime horarioDeFechamento = LocalTime.of(18,0);
-    private int votoNulo = 0;
-    private int votoBranco = 0;
+    private int votoNulo;
+    private int votoBranco;
+    private int ordemVotacao;
 
+
+    // ver se isso é jogo ou brisa
+    private HashMap<String, DeputadoEstadual> deputadoEstadualHashMap;
+    private HashMap<String, DeputadoFederal> deputadoFederalHashMap;
+    private HashMap<String, Governador> governadorHashMap;
+    private HashMap<String, Presidente> presidenteHashMap;
+    private HashMap<String, Candidato> candidatoHashMap;
 
     public Eleicao(Boolean encerrado) {
         this.encerrado = encerrado;
         verificarHorario();
-        candidatos = new HashMap<>();
-        eleitores = new HashMap<>();
+        this.candidatos = new HashMap<>();
+        this.eleitores = new HashMap<>();
+
+        this.votoNulo = 0;
+        this.votoBranco = 0;
+
+        this.ordemVotacao = 0;
+
+        /* teoricamente essa é a ordem:
+        0 Deputado Federal: é o primeiro cargo a ser votado, que tem 4 dígitos, representando o número do candidato;
+        1 Deputado Estadual: vem na sequência, com 5 dígitos;
+        2 Senador e seus dois suplentes: o eleitor deve teclar 3 dígitos;
+        3 Governador e Vice-Governador: 2 dígitos;
+        4 Presidente e Vice-Presidente da República: também 2 dígitos.
+        */
     }
 
     public void cadastrarEleitor(Eleitor novoEleitor) {
@@ -46,6 +71,22 @@ public class Eleicao {
 
     private void abrirEleicao() {
         encerrado = false;
+    }
+
+
+    // fazer uma funcao que receba o numero do candidato e o titulo e add voto pra algum bagulho
+    public void registrarVoto(String numeroCandidato, String tituloEleitor) {
+        Eleitor eleitor = this.eleitores.get(tituloEleitor);
+        Candidato candidato = this.getCandidatos().get(numeroCandidato);
+
+        if (eleitor != null && !eleitor.getJaVotou()) {
+            if (candidato != null) {
+                candidato.receberVoto();
+            } else {
+                this.addVotoNulo();
+            }
+            eleitor.setJaVotou();
+        }
     }
 
 //    private void votar() {

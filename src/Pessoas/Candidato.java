@@ -1,5 +1,7 @@
 package Pessoas;
 
+
+// usar strategy
 public class Candidato extends Pessoa {
     private String numero;
     private Partido partido;

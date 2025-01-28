@@ -25,6 +25,7 @@ public class Eleitor extends Pessoa{
     public Eleitor(String nome, String cpf, int idade, String tituloEleitoral) {
         super(nome, cpf, idade);
         this.tituloEleitoral = tituloEleitoral;
+        this.jaVotou = false;
     }
 
     public String getTituloEleitoral() {

@@ -75,7 +75,7 @@ public class PainelBotAcoes extends JPanel {
         if (candidato != null) {
             candidato.receberVoto();
             telaCadidato.setText("VOTO CONFIRMADO PARA:\n" + candidato.getNome() + " - "+ candidato.getPartido().getNome());
-            fotoCandidato.setIcon(new ImageIcon(new ImageIcon(candidato.getLocalImagem()).getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH)));
+            fotoCandidato.atualizarFoto(numero);
         } else {
             eleicao.addVotoNulo();
             telaCadidato.setText("VOTO NULO");

@@ -9,11 +9,24 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class FotoCandidato extends JLabel {
-    public FotoCandidato() {
 
+    private Eleicao eleicao;
+
+    public FotoCandidato(Eleicao eleicao) {
+        this.eleicao = eleicao;
         this.setBounds(150, 120, 200, 150);
         this.setBorder(new LineBorder(Color.BLACK, 2));
         this.setHorizontalAlignment(JLabel.CENTER);
+    }
+
+    public void atualizarFoto(String numero) {
+
+        Candidato candidato = eleicao.getCandidatos().get(numero);
+
+        if (candidato != null) {
+            this.setIcon(new ImageIcon(new ImageIcon(candidato.getLocalImagem()).getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH)));
+        }
+
     }
 
 }

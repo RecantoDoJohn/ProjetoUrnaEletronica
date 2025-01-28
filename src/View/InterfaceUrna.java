@@ -33,13 +33,13 @@ public class InterfaceUrna {
         telaCandidato = new TelaCadidato();
         painelTela.add(telaCandidato);
 
-        fotoCandidato = new FotoCandidato();
+        fotoCandidato = new FotoCandidato(this.eleicao);
         painelTela.add(fotoCandidato);
 
         janelaUrna.add(painelTela);
 
         // Teclado numérico
-        tecladoNumerico = new TecladoNumerico(campoNumero);
+        tecladoNumerico = new TecladoNumerico(campoNumero, fotoCandidato);
         janelaUrna.add(tecladoNumerico);
 
         // Botões de ação

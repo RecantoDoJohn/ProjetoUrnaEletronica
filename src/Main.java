@@ -30,7 +30,7 @@ public class Main {
         Candidato batman = new Presidente("Gustavo Lima", "999", 54, "77", tchetcherere, false, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img_1.png");
         eleicao2024.cadastrarCandidato(batman);
 
-        Candidato naruto = new Presidente("Patati e patata", "777", 45, "55", sorrireBrincar, false, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img.png");
+        Candidato naruto = new Presidente("Patati e patata", "777", 45, "54", sorrireBrincar, false, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img.png");
         eleicao2024.cadastrarCandidato(naruto);
 
 

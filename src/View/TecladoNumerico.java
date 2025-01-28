@@ -3,12 +3,18 @@ package View;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TecladoNumerico extends JPanel {
     private CampoNumero campoNumero;
+    private String numero;
+    private FotoCandidato fotoCandidato;
 
-    public TecladoNumerico(CampoNumero campoNumero) {
+    public TecladoNumerico(CampoNumero campoNumero, FotoCandidato fotoCandidato) {
         this.campoNumero = campoNumero;
+        this.fotoCandidato = fotoCandidato;
+
         this.setBounds(50, 350, 300, 300);
         this.setLayout(new GridLayout(4, 3, 10, 10));
 
@@ -21,12 +27,9 @@ public class TecladoNumerico extends JPanel {
     }
 
     private void addBotaoNumerico(JPanel painel, String numero) {
-        JButton botao = new JButton(numero);
-        botao.setFont(new Font("Arial", Font.BOLD, 24));
-        botao.setBackground(Color.LIGHT_GRAY);
-        botao.setFocusPainted(false);
-        botao.setBorder(new LineBorder(Color.DARK_GRAY, 1));
-        botao.addActionListener(e -> campoNumero.setText(campoNumero.getText() + numero));
+        TeclaNum botao = new TeclaNum(numero, campoNumero, fotoCandidato);
         painel.add(botao);
     }
+
+
 }
