@@ -5,15 +5,13 @@ public class Candidato extends Pessoa {
     private String numero;
     private Partido partido;
     private int qntVotos;
-    private boolean eleicaoProporcional;
     private String localImagem;
     private int ordem;
 
-    public Candidato(String nome, String cpf, int idade, String numero, Partido partido, boolean eleicaoProporcional, String localImagem, int ordem) {
+    public Candidato(String nome, String cpf, int idade, String numero, Partido partido, String localImagem, int ordem) {
         super(nome, cpf, idade);
         this.numero = numero;
         this.partido = partido;
-        this.eleicaoProporcional = eleicaoProporcional;
         this.qntVotos = 0;
         this.localImagem = localImagem;
         this.ordem = ordem;
@@ -42,4 +40,6 @@ public class Candidato extends Pessoa {
     public int getOrdem() {
         return ordem;
     }
+
+
 }

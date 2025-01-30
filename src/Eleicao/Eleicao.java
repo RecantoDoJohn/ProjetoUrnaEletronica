@@ -105,9 +105,6 @@ public class Eleicao {
     }
 
 
-    // metedo que ele verifica qual ordem o eleitor ta tlg
-//    public void
-
     // fazer uma funcao que receba o numero do candidato e o titulo e add voto pra algum bagulho
     public void registrarVoto(String numeroCandidato, String tituloEleitor) {
         Eleitor eleitor = this.getEleitores().get(tituloEleitor);
@@ -118,64 +115,13 @@ public class Eleicao {
             if (candidato != null) {
                 if (eleitor.getOrdemVotacao() == candidato.getOrdem()) {
                     candidato.receberVoto();
+                    eleitor.avancarVoto();
                 }
             } else {
                 this.addVotoNulo();
             }
-            eleitor.avancarVoto();
         }
     }
-
-//    private void votar() {
-//        Scanner entrada = new Scanner(System.in);
-//
-//        String voto = entrada.nextLine();
-//
-//        for (int i = 0; i < candidatos.size(); i++) {
-//            Candidato candidato = candidatos.get(i);
-//
-//            if (voto.equals(candidato.getNumero())) {
-//                candidato.receberVoto();
-//                break;
-//
-//            }
-//            if (voto.equals("branco")) {
-//                votoBranco++;
-//                break;
-//            }
-//            else if (i + 1 == candidatos.size()) {
-//                votoNulo++;
-//
-//            }
-//
-//        }
-//        verificarHorario();
-//
-//    }
-
-//    public void registrarVoto(String tituloEleitoral) {
-//
-//        if (!this.encerrado) {
-//            for (int i = 0; i < eleitores.size(); i++) {
-//                Eleitor eleitor = eleitores.get(i);
-//
-//                // verificar se o titulo esta na lista de eleitores
-//                if (eleitor.getTituloEleitoral().equals(tituloEleitoral)) {
-//
-//                    if (eleitor.getJaVotou()) {
-//                        break;
-//                    } else {
-//                        System.out.println(eleitor.getNome());
-//                        votar();
-//                        eleitor.setJaVotou();
-//                        System.out.println("Voto contabilizado");
-//                    }
-//                    break;
-//                }
-//            }
-//        }
-//
-//    }
 
     public void addVotoBranco() {
         votoBranco++;
@@ -186,11 +132,34 @@ public class Eleicao {
     }
 
     public void gerarRelatorio() {
-        for (Candidato candidato : candidatos.values()) {
+
+        System.out.println("\nDeputados Federal:");
+        for (DeputadoFederal candidato :  deputadoFederalHashMap.values()) {
             System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
         }
-        System.out.printf("Brancos: %d\n", votoBranco);
-        System.out.printf("Nulos: %d\n", votoNulo);
+
+        System.out.println("\nDeputados estadual:");
+        for (DeputadoEstadual candidato : deputadoEstadualHashMap.values()) {
+            System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
+        }
+
+        System.out.println("\nSenadores:");
+        for (Senador candidato : senadorHashMap.values()) {
+            System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
+        }
+
+        System.out.println("\nGovernadores:");
+        for (Governador candidato : governadorHashMap.values()) {
+            System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
+        }
+
+        System.out.println("\nPresidente:");
+        for (Presidente candidato : presidenteHashMap.values()) {
+            System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
+        }
+
+        System.out.printf("\nBrancos: %d\n", votoBranco);
+        System.out.printf("Nulos: %d\n\n", votoNulo);
     }
 
     public void verificarHorario() {
@@ -201,6 +170,17 @@ public class Eleicao {
         }
 
     }
+
+    public Candidato verificarCandidato(String numeroCandidato) {
+        Candidato candidato = this.getCandidatos().get(numeroCandidato);
+        return candidato;
+    }
+
+    public Eleitor verificarEleitor(String tituloEleitor) {
+        Eleitor eleitor = this.getEleitores().get(tituloEleitor);
+        return eleitor;
+    }
+
 
 }
 

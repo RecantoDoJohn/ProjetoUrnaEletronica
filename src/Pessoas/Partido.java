@@ -14,4 +14,8 @@ public class Partido {
     public String getNome() {
         return nomePartido;
     }
+
+    public void receberVoto() {
+        qntVotos++;
+    }
 }

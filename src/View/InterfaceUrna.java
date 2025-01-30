@@ -30,7 +30,8 @@ public class InterfaceUrna {
         campoNumero = new CampoNumero();
         painelTela.add(campoNumero);
 
-        telaCandidato = new TelaCadidato();
+        telaCandidato = new TelaCadidato(this.eleicao);
+        telaCandidato.trocarCargo();
         painelTela.add(telaCandidato);
 
         fotoCandidato = new FotoCandidato(this.eleicao);

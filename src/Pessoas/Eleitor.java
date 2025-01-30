@@ -40,7 +40,5 @@ public class Eleitor extends Pessoa{
 
 
 
-    public boolean verificarTitulo() {
-        return false;
-    }
+
 }

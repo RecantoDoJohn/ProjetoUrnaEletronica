@@ -23,7 +23,7 @@ public class FotoCandidato extends JLabel {
 
         Candidato candidato = eleicao.getCandidatos().get(numero);
 
-        if (candidato != null) {
+        if (candidato != null && candidato.getOrdem() == eleicao.verificarEleitor("0477").getOrdemVotacao()) {
             this.setIcon(new ImageIcon(new ImageIcon(candidato.getLocalImagem()).getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH)));
         }
 

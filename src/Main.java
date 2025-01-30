@@ -22,35 +22,50 @@ public class Main {
 
         // partidos
         Partido tchetcherere = new Partido("tchetcherere", "54");
-        Partido sorrireBrincar = new Partido("Sorrir e Brincar", "45");
+        Partido pT = new Partido("Partido Dos Trabalhadores - PT", "45");
+        Partido pL = new Partido("Partido Liberal - PL", "45");
+
+
 
 
 
         // candidatos
-        Presidente batman = new Presidente("Gustavo Lima", "999", 54, "77", tchetcherere, false, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img_1.png");
+        Presidente batman = new Presidente("Gustavo Lima", "999", 54, "77", tchetcherere,  "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img_1.png");
         eleicao2024.cadastrarPresidente(batman);
 
-        Presidente naruto = new Presidente("Patati e patata", "777", 45, "54", sorrireBrincar, false, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img.png");
-        eleicao2024.cadastrarPresidente(naruto);
+        Presidente lula = new Presidente("Luiz Inácio Lula da Silva", "123.456.789-99", 80, "13", pT, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\lula.jpg");
+        eleicao2024.cadastrarPresidente(lula);
 
-        DeputadoEstadual chatgpt = new DeputadoEstadual("ChatGPT estadual", "12345", 3, "12345", tchetcherere, true,"oi");
-        eleicao2024.cadastrarDeputadoEstatual(chatgpt);
+        Presidente bolsonaro = new Presidente("Jair M. Bolsonaro", "123.456.789-99", 69, "22", pL, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\bolso.jpg");
+        eleicao2024.cadastrarPresidente(bolsonaro);
 
-        DeputadoFederal chatgptferderal = new DeputadoFederal("ChatGPT federal", "1234", 3, "1234", tchetcherere, true,"oi");
-        eleicao2024.cadastrarDeputadoFederal(chatgptferderal);
 
-        Senador chatgptsenador = new Senador("ChatGPT sennadir", "1223", 3, "123", tchetcherere, true,"oi");
-        eleicao2024.cadastrarSenador(chatgptsenador);
+        DeputadoEstadual davi= new DeputadoEstadual("Davi", "123.456.789-99", 83, "12345", pT, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\davi.jpg");
+        eleicao2024.cadastrarDeputadoEstatual(davi);
 
-        Governador chatgptGoverbador = new Governador("ChatGPT governador", "1223", 3, "12", tchetcherere, true,"oi");
-        eleicao2024.cadastrarGovernador(chatgptGoverbador);
+        DeputadoEstadual manuel = new DeputadoEstadual("João Manuel", "123.456.789-99", 20, "54321", pL, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\jao.png");
+        eleicao2024.cadastrarDeputadoEstatual(manuel);
 
-//        eleicao2024.registrarVoto("1234", "0477");
-//        eleicao2024.registrarVoto("12345", "0477");
-//        eleicao2024.registrarVoto("123", "0477");
-//        eleicao2024.registrarVoto("12", "0477");
-//        eleicao2024.registrarVoto("77", "0477");
-//        eleicao2024.registrarVoto("77", "0477");
+
+        DeputadoFederal paulo = new DeputadoFederal("Paulo Vitor", "123.456.789-99", 19, "1700", pT,"C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\paulo.jpg");
+        eleicao2024.cadastrarDeputadoFederal(paulo);
+
+        DeputadoFederal lucas = new DeputadoFederal("José Lucas", "123.456.789-99", 22, "5432", pL, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\lucas.jpg");
+        eleicao2024.cadastrarDeputadoFederal(lucas);
+
+
+        Senador rikelme = new Senador("Darlysson Rikelme", "123.456.789-99", 23, "123", pL,"C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\riquelme.jpg");
+        eleicao2024.cadastrarSenador(rikelme);
+
+        Senador leo = new Senador("Leo Molotov", "123.456.789-99", 24, "321", pL, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\leo.jpg");
+        eleicao2024.cadastrarSenador(leo);
+
+
+        Governador carlim = new Governador("Ananias Carlos", "123.456.789-99", 33, "10", pT,"C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\carlim.jpg");
+        eleicao2024.cadastrarGovernador(carlim);
+
+        Governador sid = new Governador("Sidney Verstappen", "123.456.789-99", 20, "33", pL, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\sid.jpg");
+        eleicao2024.cadastrarGovernador(sid);
 
         eleicao2024.gerarRelatorio();
 

@@ -14,6 +14,7 @@ public class PainelBotAcoes extends JPanel {
     private TelaCadidato telaCadidato;
     private FotoCandidato fotoCandidato;
     private Eleicao eleicao;
+    private int confirmar;
 
     public PainelBotAcoes(TelaCadidato telaCadidato, CampoNumero campoNumero, FotoCandidato fotoCandidato, Eleicao eleicao) {
         this.setBounds(400, 350, 150, 300);
@@ -22,6 +23,7 @@ public class PainelBotAcoes extends JPanel {
         this.campoNumero = campoNumero;
         this.fotoCandidato = fotoCandidato;
         this.eleicao = eleicao;
+        this.confirmar = 0;
 
 
         JButton botaoBranco = criarBotaoAcao("BRANCO", Color.WHITE, Color.BLACK);
@@ -47,6 +49,7 @@ public class PainelBotAcoes extends JPanel {
         botao.setFocusPainted(false);
         botao.setBorder(new LineBorder(Color.BLACK, 2));
         return botao;
+
     }
 
     private void votoBranco() {
@@ -58,13 +61,15 @@ public class PainelBotAcoes extends JPanel {
 
     private void corrigirVoto() {
         this.campoNumero.setText("");
-        this.telaCadidato.setText("SEU VOTO PARA");
+        this.telaCadidato.trocarCargo();
         this.fotoCandidato.setIcon(null);
         eleicao.gerarRelatorio();
+        confirmar = 0;
     }
 
     private void confirmarVoto() {
         String numero = campoNumero.getText();
+
         if (numero.isEmpty()) {
             this.telaCadidato.setText("NÚMERO INVÁLIDO!");
             this.fotoCandidato.setIcon(null);
@@ -72,16 +77,24 @@ public class PainelBotAcoes extends JPanel {
 
         Candidato candidato = eleicao.getCandidatos().get(numero);
 
+        // deu certo e passa
         if (candidato != null) {
-            eleicao.registrarVoto(candidato.getNumero(), numero);
-            telaCadidato.setText("VOTO CONFIRMADO PARA:\n" + candidato.getNome() + " - "+ candidato.getPartido().getNome());
-            fotoCandidato.atualizarFoto(numero);
+
+            if (confirmar == 0 && candidato.getOrdem() == eleicao.verificarEleitor("0477").getOrdemVotacao()) {
+                confirmar = 1;
+                telaCadidato.setText("VOTO CONFIRMADO PARA:\n" + candidato.getNome() + " - "+ candidato.getPartido().getNome());
+            } else if (confirmar == 1 ) {
+                eleicao.registrarVoto(candidato.getNumero(), "0477");
+                telaCadidato.trocarCargo();
+                this.campoNumero.setText("");
+                confirmar = 0;
+            }
+
         } else {
             eleicao.addVotoNulo();
             telaCadidato.setText("VOTO NULO");
             fotoCandidato.setIcon(null);
         }
-        this.campoNumero.setText("");
 
     }
 }

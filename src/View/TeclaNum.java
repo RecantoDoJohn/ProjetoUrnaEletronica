@@ -29,7 +29,6 @@ public class TeclaNum extends JButton implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String numeroTela = campoNumero.getText() + numero;
-        System.out.println(numeroTela);
         campoNumero.setText(numeroTela);
         fotoCandidato.atualizarFoto(numeroTela);
     }
