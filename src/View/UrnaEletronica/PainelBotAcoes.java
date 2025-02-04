@@ -1,4 +1,4 @@
-package View;
+package View.UrnaEletronica;
 
 import Eleicao.Eleicao;
 import Pessoas.Candidato;
@@ -14,7 +14,6 @@ public class PainelBotAcoes extends JPanel {
     private TelaCadidato telaCadidato;
     private FotoCandidato fotoCandidato;
     private Eleicao eleicao;
-    private int confirmar;
 
     public PainelBotAcoes(TelaCadidato telaCadidato, CampoNumero campoNumero, FotoCandidato fotoCandidato, Eleicao eleicao) {
         this.setBounds(400, 350, 150, 300);
@@ -23,7 +22,7 @@ public class PainelBotAcoes extends JPanel {
         this.campoNumero = campoNumero;
         this.fotoCandidato = fotoCandidato;
         this.eleicao = eleicao;
-        this.confirmar = 0;
+
 
 
         JButton botaoBranco = criarBotaoAcao("BRANCO", Color.WHITE, Color.BLACK);
@@ -64,7 +63,6 @@ public class PainelBotAcoes extends JPanel {
         this.telaCadidato.trocarCargo();
         this.fotoCandidato.setIcon(null);
         eleicao.gerarRelatorio();
-        confirmar = 0;
     }
 
     private void confirmarVoto() {
@@ -75,26 +73,12 @@ public class PainelBotAcoes extends JPanel {
             this.fotoCandidato.setIcon(null);
         }
 
-        Candidato candidato = eleicao.getCandidatos().get(numero);
-
-        // deu certo e passa
-        if (candidato != null) {
-
-            if (confirmar == 0 && candidato.getOrdem() == eleicao.verificarEleitor("0477").getOrdemVotacao()) {
-                confirmar = 1;
-                telaCadidato.setText("VOTO CONFIRMADO PARA:\n" + candidato.getNome() + " - "+ candidato.getPartido().getNome());
-            } else if (confirmar == 1 ) {
-                eleicao.registrarVoto(candidato.getNumero(), "0477");
-                telaCadidato.trocarCargo();
-                this.campoNumero.setText("");
-                confirmar = 0;
-            }
-
-        } else {
-            eleicao.addVotoNulo();
-            telaCadidato.setText("VOTO NULO");
+        // nao ta vazio
+        else {
+            eleicao.registrarVoto(numero);
             fotoCandidato.setIcon(null);
+            this.campoNumero.setText("");
+            telaCadidato.trocarCargo();
         }
-
     }
 }

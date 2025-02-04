@@ -16,6 +16,7 @@ public class Eleicao {
     private static final LocalTime horarioDeFechamento = LocalTime.of(18,0);
     private int votoNulo;
     private int votoBranco;
+    private Eleitor eleitorDoMomento;
 
 
 
@@ -106,28 +107,33 @@ public class Eleicao {
 
 
     // fazer uma funcao que receba o numero do candidato e o titulo e add voto pra algum bagulho
-    public void registrarVoto(String numeroCandidato, String tituloEleitor) {
-        Eleitor eleitor = this.getEleitores().get(tituloEleitor);
+    public void registrarVoto(String numeroCandidato) {
+
+        if (eleitorDoMomento == null) return;
+
+//        if (eleitorDoMomento.getOrdemVotacao() == 5) return;
+        if (eleitorDoMomento.getOrdemVotacao() == 4) {
+            this.selecionarEleitor("1234");
+        }
+
         Candidato candidato = this.getCandidatos().get(numeroCandidato);
 
-        // verificar
-        if (eleitor != null && eleitor.getOrdemVotacao() != 5) {
-            if (candidato != null) {
-                if (eleitor.getOrdemVotacao() == candidato.getOrdem()) {
-                    candidato.receberVoto();
-                    eleitor.avancarVoto();
-                }
-            } else {
-                this.addVotoNulo();
-            }
+        if (candidato == null || eleitorDoMomento.getOrdemVotacao() != candidato.getOrdem()) {
+            this.addVotoNulo();
+        } else {
+            candidato.receberVoto();
         }
+
+        eleitorDoMomento.avancarVoto();
+
     }
 
     public void addVotoBranco() {
         votoBranco++;
+        eleitorDoMomento.avancarVoto();
     }
 
-    public void addVotoNulo() {
+    private void addVotoNulo() {
         votoNulo++;
     }
 
@@ -181,6 +187,18 @@ public class Eleicao {
         return eleitor;
     }
 
+    public void selecionarEleitor(String tituloEleitor) {
+        Eleitor eleitorTst = eleitores.get(tituloEleitor);
 
+        if (eleitorTst != null ) {
+            this.eleitorDoMomento = eleitorTst;
+        } else {
+            System.out.println("Error: Titulo sem eleitor\n");
+        }
+    }
+
+    public Eleitor getEleitorDoMomento() {
+        return eleitorDoMomento;
+    }
 }
 

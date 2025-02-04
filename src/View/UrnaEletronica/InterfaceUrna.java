@@ -1,6 +1,5 @@
-package View;
+package View.UrnaEletronica;
 
-import javax.swing.*;
 import Eleicao.Eleicao;
 
 // setar classe teste para candidatos
@@ -19,6 +18,7 @@ public class InterfaceUrna {
 
     public InterfaceUrna(Eleicao eleicao) {
         this.eleicao = eleicao;
+
 
         // Configuração da Janela
         janelaUrna = new JanelaUrna();
@@ -40,7 +40,7 @@ public class InterfaceUrna {
         janelaUrna.add(painelTela);
 
         // Teclado numérico
-        tecladoNumerico = new TecladoNumerico(campoNumero, fotoCandidato);
+        tecladoNumerico = new TecladoNumerico(campoNumero, fotoCandidato, telaCandidato, this.eleicao);
         janelaUrna.add(tecladoNumerico);
 
         // Botões de ação

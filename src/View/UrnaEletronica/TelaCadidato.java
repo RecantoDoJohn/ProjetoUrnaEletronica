@@ -1,6 +1,7 @@
-package View;
+package View.UrnaEletronica;
 
 import Eleicao.Eleicao;
+import Pessoas.Candidato;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,12 +23,12 @@ public class TelaCadidato extends JTextArea {
     public void trocarCargo() {
         String texto = "'";
 
-        switch (eleicao.verificarEleitor("0477").getOrdemVotacao()) {
+        switch (eleicao.getEleitorDoMomento().getOrdemVotacao()) {
             case 0:
-                texto = "DEPUTADO ESTADUAL";
+                texto = "DEPUTADO FEDERAL";
                 break;
             case 1:
-                texto = "DEPUTADO FEDERAL";
+                texto = "DEPUTADO ESTADUAL";
                 break;
             case 2:
                 texto = "SENADOR";
@@ -41,5 +42,10 @@ public class TelaCadidato extends JTextArea {
         }
 
         this.setText("SEU VOTO PARA " + texto);
+    }
+
+
+    public void textoVotoCandidato(Candidato candidato) {
+        this.setText("VOTO CONFIRMADO PARA:\n" + candidato.getNome() + " - "+ candidato.getPartido().getNome());
     }
 }
