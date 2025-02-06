@@ -12,7 +12,7 @@ public class Eleicao {
     private HashMap<String, Eleitor> eleitores;
     private HashMap<String, Candidato> candidatos;
     private Boolean aberto;
-    private static final LocalTime horarioDeAbertura = LocalTime.of(8,0);
+    private LocalTime horarioDeAbertura;
     private static final LocalTime horarioDeFechamento = LocalTime.of(18,0);
     private int votoNulo;
     private int votoBranco;
@@ -30,7 +30,6 @@ public class Eleicao {
 
     public Eleicao() {
         this.aberto = false;
-        verificarHorario();
         this.candidatos = new HashMap<>();
         this.eleitores = new HashMap<>();
 
@@ -102,6 +101,7 @@ public class Eleicao {
     }
 
     public void abrirEleicao() {
+        definirHorarioDeAbertura();
         aberto = true;
     }
 
@@ -115,7 +115,9 @@ public class Eleicao {
 
         if (eleitorDoMomento == null) return;
 
-        if (eleitorDoMomento.getOrdemVotacao() == 5) return;
+        if (eleitorDoMomento.getOrdemVotacao() == 4) {
+            verificarHorario();
+        }
 
         Candidato candidato = this.getCandidatos().get(numeroCandidato);
 
@@ -139,6 +141,9 @@ public class Eleicao {
     }
 
     public void gerarRelatorio() {
+
+        System.out.println("Horario de abertura: " + horarioDeAbertura);
+        System.out.println("Horario de Fechamento: " + LocalTime.now());
 
         System.out.println("\nDeputados Federal:");
         for (DeputadoFederal candidato :  deputadoFederalHashMap.values()) {
@@ -176,6 +181,12 @@ public class Eleicao {
             finalizarEleicao();
         }
 
+    }
+
+    public void definirHorarioDeAbertura() {
+        if (horarioDeAbertura == null) {
+            this.horarioDeAbertura = LocalTime.now();
+        }
     }
 
     public Candidato verificarCandidato(String numeroCandidato) {
