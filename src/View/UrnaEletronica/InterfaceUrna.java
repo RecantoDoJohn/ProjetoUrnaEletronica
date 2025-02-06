@@ -44,12 +44,16 @@ public class InterfaceUrna {
         janelaUrna.add(tecladoNumerico);
 
         // Botões de ação
-        painelBotAcoes = new PainelBotAcoes(telaCandidato, campoNumero, fotoCandidato, this.eleicao);
+        painelBotAcoes = new PainelBotAcoes(telaCandidato, campoNumero, fotoCandidato, this.eleicao, this);
         janelaUrna.add(painelBotAcoes);
     }
 
     public void visivel(Boolean visibilidade) {
         this.janelaUrna.setVisible(visibilidade);
+    }
+
+    public void destruirTela() {
+        this.janelaUrna.dispose();
     }
 
 }

@@ -1,5 +1,7 @@
 package View.PresidenteSessao;
 
+import Eleicao.Eleicao;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,8 +14,8 @@ public class InterfacePresidente extends JFrame {
     private JButton registrarPessoa;
     private FuncoesPresidente funcoesPresidente;
 
-    public InterfacePresidente() {
-        this.funcoesPresidente = new FuncoesPresidente();
+    public InterfacePresidente(Eleicao eleicao) {
+        this.funcoesPresidente = new FuncoesPresidente(eleicao);
         initUI();
     }
 
@@ -22,6 +24,7 @@ public class InterfacePresidente extends JFrame {
         setSize(500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -55,11 +58,5 @@ public class InterfacePresidente extends JFrame {
         registrarPessoa.addActionListener(e -> funcoesPresidente.registrarPessoa());
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            InterfacePresidente ui = new InterfacePresidente();
-            ui.setVisible(true);
-        });
-    }
 }
 

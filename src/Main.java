@@ -2,11 +2,11 @@ import Eleicao.Eleicao;
 import Pessoas.Cargos.*;
 import Pessoas.Eleitor;
 import Pessoas.Partido;
-import View.UrnaEletronica.InterfaceUrna;
+import View.MediadorInterface;
 
 public class Main {
     public static void main(String[] arg) {
-        Eleicao eleicao2024 = new Eleicao(false);
+        Eleicao eleicao2024 = new Eleicao();
 
 
         // eleitores
@@ -63,8 +63,7 @@ public class Main {
         eleicao2024.cadastrarPresidente(bolsonaro);
 
 
-        eleicao2024.selecionarEleitor("0477");
-        InterfaceUrna urna = new InterfaceUrna(eleicao2024);
-        urna.visivel(true);
+        MediadorInterface urna = new MediadorInterface(eleicao2024);
+        urna.visibilidade(true);
     }
 }

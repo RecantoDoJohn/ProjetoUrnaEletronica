@@ -14,14 +14,16 @@ public class PainelBotAcoes extends JPanel {
     private TelaCadidato telaCadidato;
     private FotoCandidato fotoCandidato;
     private Eleicao eleicao;
+    private InterfaceUrna interfaceUrna;
 
-    public PainelBotAcoes(TelaCadidato telaCadidato, CampoNumero campoNumero, FotoCandidato fotoCandidato, Eleicao eleicao) {
+    public PainelBotAcoes(TelaCadidato telaCadidato, CampoNumero campoNumero, FotoCandidato fotoCandidato, Eleicao eleicao, InterfaceUrna interfaceUrna) {
         this.setBounds(400, 350, 150, 300);
         this.setLayout(new GridLayout(3, 1, 10, 10));
         this.telaCadidato = telaCadidato;
         this.campoNumero = campoNumero;
         this.fotoCandidato = fotoCandidato;
         this.eleicao = eleicao;
+        this.interfaceUrna = interfaceUrna;
 
 
 
@@ -52,17 +54,20 @@ public class PainelBotAcoes extends JPanel {
     }
 
     private void votoBranco() {
-        this.telaCadidato.setText("VOTO EM BRANCO REGISTRADO");
         campoNumero.setText("");
         fotoCandidato.setIcon(null);
         eleicao.addVotoBranco();
+        this.telaCadidato.trocarCargo();
+
+        if(eleicao.getEleitorDoMomento().getOrdemVotacao() > 4) {
+            interfaceUrna.destruirTela();
+        }
     }
 
     private void corrigirVoto() {
         this.campoNumero.setText("");
         this.telaCadidato.trocarCargo();
         this.fotoCandidato.setIcon(null);
-        eleicao.gerarRelatorio();
     }
 
     private void confirmarVoto() {
@@ -79,6 +84,10 @@ public class PainelBotAcoes extends JPanel {
             fotoCandidato.setIcon(null);
             this.campoNumero.setText("");
             telaCadidato.trocarCargo();
+
+            if(eleicao.getEleitorDoMomento().getOrdemVotacao() > 4) {
+                interfaceUrna.destruirTela();
+            }
         }
     }
 }

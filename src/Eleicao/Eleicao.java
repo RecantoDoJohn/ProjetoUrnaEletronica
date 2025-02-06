@@ -11,7 +11,7 @@ public class Eleicao {
 // falta colocar os novos tipos dos eleitores e canditatos no diagrama
     private HashMap<String, Eleitor> eleitores;
     private HashMap<String, Candidato> candidatos;
-    private Boolean encerrado;
+    private Boolean aberto;
     private static final LocalTime horarioDeAbertura = LocalTime.of(8,0);
     private static final LocalTime horarioDeFechamento = LocalTime.of(18,0);
     private int votoNulo;
@@ -28,8 +28,8 @@ public class Eleicao {
     private HashMap<String, Senador> senadorHashMap;
 
 
-    public Eleicao(Boolean encerrado) {
-        this.encerrado = encerrado;
+    public Eleicao() {
+        this.aberto = false;
         verificarHorario();
         this.candidatos = new HashMap<>();
         this.eleitores = new HashMap<>();
@@ -97,12 +97,16 @@ public class Eleicao {
         return candidatos;
     }
 
-    private void finalizarEleicao() {
-        encerrado = true;
+    public void finalizarEleicao() {
+        aberto = false;
     }
 
-    private void abrirEleicao() {
-        encerrado = false;
+    public void abrirEleicao() {
+        aberto = true;
+    }
+
+    public Boolean getAberto() {
+        return aberto;
     }
 
 
@@ -111,10 +115,7 @@ public class Eleicao {
 
         if (eleitorDoMomento == null) return;
 
-//        if (eleitorDoMomento.getOrdemVotacao() == 5) return;
-        if (eleitorDoMomento.getOrdemVotacao() == 4) {
-            this.selecionarEleitor("1234");
-        }
+        if (eleitorDoMomento.getOrdemVotacao() == 5) return;
 
         Candidato candidato = this.getCandidatos().get(numeroCandidato);
 
@@ -187,13 +188,14 @@ public class Eleicao {
         return eleitor;
     }
 
-    public void selecionarEleitor(String tituloEleitor) {
+    public Boolean selecionarEleitor(String tituloEleitor) {
         Eleitor eleitorTst = eleitores.get(tituloEleitor);
 
-        if (eleitorTst != null ) {
-            this.eleitorDoMomento = eleitorTst;
+        if (eleitorTst == null || eleitorTst.getOrdemVotacao() == 5) {
+            return false;
         } else {
-            System.out.println("Error: Titulo sem eleitor\n");
+            this.eleitorDoMomento = eleitorTst;
+            return true;
         }
     }
 
