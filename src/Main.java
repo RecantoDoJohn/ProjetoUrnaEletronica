@@ -42,18 +42,18 @@ public class Main {
         Senador rikelme = new Senador("Darlysson Rikelme", "123.456.789-99", 23, "123", pL,"C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\riquelme.jpg");
         eleicao2024.cadastrarSenador(rikelme);
 
-        Senador leo = new Senador("Leo Molotov", "123.456.789-99", 24, "321", pL, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\leo.jpg");
+        Senador leo = new Senador("Leo Molotov", "123.456.789-99", 24, "321", pL, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\leo.png");
         eleicao2024.cadastrarSenador(leo);
 
         // governador
         Governador carlim = new Governador("Ananias Carlos", "123.456.789-99", 33, "12", pT,"C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\carlim.jpg");
         eleicao2024.cadastrarGovernador(carlim);
 
-        Governador sid = new Governador("Sidney Verstappen", "123.456.789-99", 20, "33", pL, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\sid.jpg");
+        Governador sid = new Governador("Sidney Verstappen", "123.456.789-99", 20, "33", pL, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\sid.png");
         eleicao2024.cadastrarGovernador(sid);
 
         // presidente
-        Presidente batman = new Presidente("Gustavo Lima", "999", 54, "77", tchetcherere,  "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img_1.png");
+        Presidente batman = new Presidente("Gustavo Lima", "999", 54, "77", tchetcherere,  "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\img.png");
         eleicao2024.cadastrarPresidente(batman);
 
         Presidente lula = new Presidente("Luiz Inácio Lula da Silva", "123.456.789-99", 80, "13", pT, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\lula.jpg");

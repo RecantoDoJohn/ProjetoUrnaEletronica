@@ -8,12 +8,11 @@ import java.time.LocalTime;
 import java.util.HashMap;
 
 public class Eleicao {
-// falta colocar os novos tipos dos eleitores e canditatos no diagrama
     private HashMap<String, Eleitor> eleitores;
     private HashMap<String, Candidato> candidatos;
     private Boolean aberto;
     private LocalTime horarioDeAbertura;
-    private static final LocalTime horarioDeFechamento = LocalTime.of(18,0);
+    private static final LocalTime horarioDeFechamento = LocalTime.of(12,0);
     private int votoNulo;
     private int votoBranco;
     private Eleitor eleitorDoMomento;
@@ -112,13 +111,6 @@ public class Eleicao {
 
     // fazer uma funcao que receba o numero do candidato e o titulo e add voto pra algum bagulho
     public void registrarVoto(String numeroCandidato) {
-
-        if (eleitorDoMomento == null) return;
-
-        if (eleitorDoMomento.getOrdemVotacao() == 4) {
-            verificarHorario();
-        }
-
         Candidato candidato = this.getCandidatos().get(numeroCandidato);
 
         if (candidato == null || eleitorDoMomento.getOrdemVotacao() != candidato.getOrdem()) {
@@ -186,6 +178,7 @@ public class Eleicao {
     public void definirHorarioDeAbertura() {
         if (horarioDeAbertura == null) {
             this.horarioDeAbertura = LocalTime.now();
+            verificarHorario();
         }
     }
 

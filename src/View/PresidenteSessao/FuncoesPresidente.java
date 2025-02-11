@@ -18,12 +18,13 @@ public final class FuncoesPresidente {
     }
 
     public  void registrarVoto(String tituloEleitor) {
+
+        eleicao.verificarHorario();
         if (eleicao.selecionarEleitor(tituloEleitor) && eleicao.getAberto()) {
-//            JOptionPane.showMessageDialog(null, "🗳️ Voto registrado para o título: " + tituloEleitor, "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             InterfaceUrna urna = new InterfaceUrna(eleicao);
             urna.visivel(true);
         } else {
-            JOptionPane.showMessageDialog(null, "⚠️ Por favor, insira o título de eleitor.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "⚠️ Nao é possivel votar no momento.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 

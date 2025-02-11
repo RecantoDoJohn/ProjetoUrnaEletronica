@@ -10,6 +10,7 @@ public class InterfaceUrna {
     private Eleicao eleicao;
     private PainelTela painelTela;
     private JanelaUrna janelaUrna;
+    private FuncoesUrna funcoesUrna;
     private CampoNumero campoNumero;
     private TelaCadidato telaCandidato;
     private FotoCandidato fotoCandidato;
@@ -43,8 +44,11 @@ public class InterfaceUrna {
         tecladoNumerico = new TecladoNumerico(campoNumero, fotoCandidato, telaCandidato, this.eleicao);
         janelaUrna.add(tecladoNumerico);
 
+        // funcoes da urna
+        funcoesUrna = new FuncoesUrna(telaCandidato, campoNumero, fotoCandidato, eleicao, this);
+
         // Botões de ação
-        painelBotAcoes = new PainelBotAcoes(telaCandidato, campoNumero, fotoCandidato, this.eleicao, this);
+        painelBotAcoes = new PainelBotAcoes(funcoesUrna);
         janelaUrna.add(painelBotAcoes);
     }
 
