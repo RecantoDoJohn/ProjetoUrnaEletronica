@@ -63,6 +63,8 @@ public class Main {
         eleicao2024.cadastrarPresidente(bolsonaro);
 
 
+//        eleicao2024.gerarRelatorio();
+
         MediadorInterface urna = new MediadorInterface(eleicao2024);
         urna.visibilidade(true);
     }

@@ -21,29 +21,8 @@ public class TelaCadidato extends JTextArea {
     }
 
     public void trocarCargo() {
-        String texto = "'";
-
-        switch (eleicao.getEleitorDoMomento().getOrdemVotacao()) {
-            case 0:
-                texto = "DEPUTADO FEDERAL";
-                break;
-            case 1:
-                texto = "DEPUTADO ESTADUAL";
-                break;
-            case 2:
-                texto = "SENADOR";
-                break;
-            case 3:
-                texto = "GOVERNADOR";
-                break;
-            case 4:
-                texto = "PRESIDENTE";
-                break;
-        }
-
-        this.setText("SEU VOTO PARA " + texto);
+        this.setText("SEU VOTO PARA " + eleicao.getNomeCargo(eleicao.getEleitorDoMomento().getOrdemVotacao()));
     }
-
 
     public void textoVotoCandidato(Candidato candidato) {
         this.setText("VOTO CONFIRMADO PARA:\n" + candidato.getNome() + " - "+ candidato.getPartido().getNome());

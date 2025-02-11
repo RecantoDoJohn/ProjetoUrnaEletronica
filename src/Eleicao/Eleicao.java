@@ -4,7 +4,11 @@ import Pessoas.Candidato;
 import Pessoas.Cargos.*;
 import Pessoas.Eleitor;
 
+import java.awt.*;
+import java.lang.reflect.Array;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Eleicao {
@@ -12,10 +16,11 @@ public class Eleicao {
     private HashMap<String, Candidato> candidatos;
     private Boolean aberto;
     private LocalTime horarioDeAbertura;
-    private static final LocalTime horarioDeFechamento = LocalTime.of(12,0);
+    private static final LocalTime horarioDeFechamento = LocalTime.of(20,0);
     private int votoNulo;
     private int votoBranco;
     private Eleitor eleitorDoMomento;
+    private String[] nomesCargos;
 
 
 
@@ -25,6 +30,8 @@ public class Eleicao {
     private HashMap<String, Governador> governadorHashMap;
     private HashMap<String, Presidente> presidenteHashMap;
     private HashMap<String, Senador> senadorHashMap;
+
+    private ArrayList< HashMap<String, ?> > cargosList;
 
 
     public Eleicao() {
@@ -37,6 +44,23 @@ public class Eleicao {
         this.governadorHashMap = new HashMap<>();
         this.presidenteHashMap = new HashMap<>();
         this.senadorHashMap = new HashMap<>();
+
+        this.cargosList = new ArrayList<>();
+        Collections.addAll(cargosList,
+                deputadoFederalHashMap,
+                deputadoEstadualHashMap,
+                senadorHashMap,
+                governadorHashMap,
+                presidenteHashMap
+        );
+
+        this.nomesCargos = new String[]{
+                "DEPUTADO FEDERAI",
+                "DEPUTADO ESTADUAl",
+                "SENADOR",
+                "GOVERNADOR",
+                "PRESIDENTe"
+        };
 
         this.votoNulo = 0;
         this.votoBranco = 0;
@@ -53,10 +77,6 @@ public class Eleicao {
 
     public void cadastrarEleitor(Eleitor novoEleitor) {
         this.eleitores.put(novoEleitor.getTituloEleitoral(), novoEleitor);
-    }
-
-    public void cadastrarCandidato(Candidato novoCandidato) {
-        this.candidatos.put(novoCandidato.getNumero(), novoCandidato);
     }
 
     public void cadastrarPresidente(Presidente presidente) {
@@ -137,33 +157,15 @@ public class Eleicao {
         System.out.println("Horario de abertura: " + horarioDeAbertura);
         System.out.println("Horario de Fechamento: " + LocalTime.now());
 
-        System.out.println("\nDeputados Federal:");
-        for (DeputadoFederal candidato :  deputadoFederalHashMap.values()) {
-            System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
-        }
+        int index = 0;
 
-        System.out.println("\nDeputados estadual:");
-        for (DeputadoEstadual candidato : deputadoEstadualHashMap.values()) {
-            System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
+        for (HashMap<String, ?> cargo : cargosList) {
+            System.out.printf("\n%s: \n", nomesCargos[index++]);
+            for (Object candidatoCru : cargo.values() ) {
+                Candidato candidato = (Candidato) candidatoCru;
+                System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
+            }
         }
-
-        System.out.println("\nSenadores:");
-        for (Senador candidato : senadorHashMap.values()) {
-            System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
-        }
-
-        System.out.println("\nGovernadores:");
-        for (Governador candidato : governadorHashMap.values()) {
-            System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
-        }
-
-        System.out.println("\nPresidente:");
-        for (Presidente candidato : presidenteHashMap.values()) {
-            System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
-        }
-
-        System.out.printf("\nBrancos: %d\n", votoBranco);
-        System.out.printf("Nulos: %d\n\n", votoNulo);
     }
 
     public void verificarHorario() {
@@ -205,6 +207,10 @@ public class Eleicao {
 
     public Eleitor getEleitorDoMomento() {
         return eleitorDoMomento;
+    }
+
+    public String getNomeCargo(int i) {
+        return this.nomesCargos[i];
     }
 }
 
