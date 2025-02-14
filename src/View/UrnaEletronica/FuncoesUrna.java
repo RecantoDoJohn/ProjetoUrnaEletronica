@@ -19,14 +19,14 @@ public class FuncoesUrna {
     }
 
     public void votoBranco() {
+
+        if(eleicao.getEleitorDoMomento().getOrdemVotacao() == 4) {
+            interfaceUrna.destruirTela();
+        }
         campoNumero.setText("");
         fotoCandidato.setIcon(null);
         eleicao.addVotoBranco();
         this.telaCadidato.trocarCargo();
-
-        if(eleicao.getEleitorDoMomento().getOrdemVotacao() > 4) {
-            interfaceUrna.destruirTela();
-        }
     }
 
     public void corrigirVoto() {
@@ -45,14 +45,13 @@ public class FuncoesUrna {
 
         // nao ta vazio
         else {
+            if(eleicao.getEleitorDoMomento().getOrdemVotacao() == 4) {
+                interfaceUrna.destruirTela();
+            }
             eleicao.registrarVoto(numero);
             fotoCandidato.setIcon(null);
             this.campoNumero.setText("");
             telaCadidato.trocarCargo();
-
-            if(eleicao.getEleitorDoMomento().getOrdemVotacao() > 4) {
-                interfaceUrna.destruirTela();
-            }
         }
     }
 }

@@ -6,7 +6,7 @@ public class Eleitor extends Pessoa{
     private String municipio;
     private String uf;
     private String tituloEleitoral;
-    private int ordemVotacao;
+    protected int ordemVotacao;
 
 
     public Eleitor(int zona, int secao, String municipio, String uf, String tituloEleitoral) {
@@ -31,14 +31,13 @@ public class Eleitor extends Pessoa{
     }
 
     public void avancarVoto() {
-        this.ordemVotacao++;
+        if (this.ordemVotacao != 4) {
+            this.ordemVotacao++;
+        }
     }
 
     public int getOrdemVotacao() {
         return ordemVotacao;
     }
-
-
-
 
 }

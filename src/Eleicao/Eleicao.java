@@ -3,13 +3,12 @@ package Eleicao;
 import Pessoas.Candidato;
 import Pessoas.Cargos.*;
 import Pessoas.Eleitor;
+import Pessoas.EleitorMagico;
 
-import java.awt.*;
-import java.lang.reflect.Array;
+import java.security.SecureRandom;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
+
 
 public class Eleicao {
     private HashMap<String, Eleitor> eleitores;
@@ -17,12 +16,14 @@ public class Eleicao {
     private Boolean aberto;
     private LocalTime horarioDeAbertura;
     private static final LocalTime horarioDeFechamento = LocalTime.of(20,0);
-    private int votoNulo;
-    private int votoBranco;
     private Eleitor eleitorDoMomento;
     private String[] nomesCargos;
 
+    private int votoNuloDepuEstatual, votoNuloDepuFederal, votoNuloGovernador, votoNuloSenador, votoNuloPresidente;
+    private int[] listaVotoNulo = {votoNuloDepuFederal, votoNuloDepuEstatual,  votoNuloGovernador, votoNuloSenador, votoNuloPresidente};
 
+    private int votoBrancoDepuFederal, votoBrancoDepuEstatual, votoBracoGovernador, votoBrancoSenador, votoBrancoPresidente;
+    private int[] listaVotoBranco = {votoBrancoDepuFederal, votoBrancoDepuEstatual, votoBracoGovernador, votoBrancoSenador, votoBrancoPresidente};
 
     // ver se isso é jogo ou brisa
     private HashMap<String, DeputadoEstadual> deputadoEstadualHashMap;
@@ -55,15 +56,12 @@ public class Eleicao {
         );
 
         this.nomesCargos = new String[]{
-                "DEPUTADO FEDERAI",
+                "DEPUTADO FEDERAL",
                 "DEPUTADO ESTADUAl",
                 "SENADOR",
                 "GOVERNADOR",
-                "PRESIDENTe"
+                "PRESIDENTE"
         };
-
-        this.votoNulo = 0;
-        this.votoBranco = 0;
 
 
         /* teoricamente essa é a ordem:
@@ -106,7 +104,6 @@ public class Eleicao {
 
 
 
-
     public HashMap<String, Eleitor> getEleitores() {
         return eleitores;
     }
@@ -138,18 +135,17 @@ public class Eleicao {
         } else {
             candidato.receberVoto();
         }
-
         eleitorDoMomento.avancarVoto();
 
     }
 
     public void addVotoBranco() {
-        votoBranco++;
+        this.listaVotoBranco[this.eleitorDoMomento.getOrdemVotacao()]++;
         eleitorDoMomento.avancarVoto();
     }
 
     private void addVotoNulo() {
-        votoNulo++;
+        listaVotoNulo[eleitorDoMomento.getOrdemVotacao()]++;
     }
 
     public void gerarRelatorio() {
@@ -160,11 +156,13 @@ public class Eleicao {
         int index = 0;
 
         for (HashMap<String, ?> cargo : cargosList) {
-            System.out.printf("\n%s: \n", nomesCargos[index++]);
+            System.out.printf("\n%s: \n", nomesCargos[index]);
             for (Object candidatoCru : cargo.values() ) {
                 Candidato candidato = (Candidato) candidatoCru;
                 System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
             }
+            System.out.printf("Votos nulo: %d\n", listaVotoNulo[index]);
+            System.out.printf("Votos brancos: %d\n", listaVotoBranco[index++]);
         }
     }
 
@@ -184,20 +182,10 @@ public class Eleicao {
         }
     }
 
-    public Candidato verificarCandidato(String numeroCandidato) {
-        Candidato candidato = this.getCandidatos().get(numeroCandidato);
-        return candidato;
-    }
-
-    public Eleitor verificarEleitor(String tituloEleitor) {
-        Eleitor eleitor = this.getEleitores().get(tituloEleitor);
-        return eleitor;
-    }
-
     public Boolean selecionarEleitor(String tituloEleitor) {
         Eleitor eleitorTst = eleitores.get(tituloEleitor);
 
-        if (eleitorTst == null || eleitorTst.getOrdemVotacao() == 5) {
+        if (eleitorTst == null || eleitorTst.getOrdemVotacao() == 4) {
             return false;
         } else {
             this.eleitorDoMomento = eleitorTst;
@@ -210,7 +198,36 @@ public class Eleicao {
     }
 
     public String getNomeCargo(int i) {
-        return this.nomesCargos[i];
+            return this.nomesCargos[i];
+    }
+
+    public void votosMagicos(int quantEleitores) {
+
+        Eleitor oz = new EleitorMagico("Oz", "000", 99, "abcd");
+        this.cadastrarEleitor(oz);
+        this.selecionarEleitor(oz.getTituloEleitoral());
+
+        Random geradorNumeroAleatorio = new Random();
+
+        for (int i= 0; i <= quantEleitores - 1; i++) {
+            for (HashMap<String, ?> cargo : cargosList) {
+
+                int num = geradorNumeroAleatorio.nextInt(cargo.size() + 2); // ta estranho ele tem preferencia por numeros altos...
+
+                String[] listaNumeros = cargo.keySet().toArray(new String[0]);
+
+                if (num < cargo.size()) {
+                    this.registrarVoto(listaNumeros[num]);
+                } else if (num == cargo.size()) {
+                    addVotoBranco();
+                } else {
+                    this.registrarVoto("00");
+                }
+            }
+
+        }
+
+        gerarRelatorio();
     }
 }
 
