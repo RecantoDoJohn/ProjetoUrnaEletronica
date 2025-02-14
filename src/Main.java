@@ -68,10 +68,10 @@ public class Main {
         eleicao2024.cadastrarPresidente(bolsonaro);
 
 
-//        MediadorInterface urna = new MediadorInterface(eleicao2024);
-//        urna.visibilidade(true);
-
-        eleicao2024.votosMagicos(100);
-        eleicao2024.calculoEleicaoProporcional();
+        MediadorInterface urna = new MediadorInterface(eleicao2024);
+        urna.visibilidade(true);
+//
+//        eleicao2024.votosMagicos(100);
+//        eleicao2024.calculoEleicaoProporcional();
     }
 }

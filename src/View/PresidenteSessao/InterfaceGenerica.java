@@ -3,49 +3,47 @@ package View.PresidenteSessao;
 import javax.swing.*;
 import java.awt.*;
 
-class InterfaceGenerica extends JPanel {
+public class InterfaceGenerica extends JFrame {
+    private JTextField campoHora;
+    private JPanel painel;
+    private JLabel texto;
+    private JButton botao;
+
     public InterfaceGenerica() {
+        setTitle("📢 Iniciar Eleição");
+        setSize(400, 200);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel label = new JLabel("Texto:");
-        label.setFont(new Font(null, Font.BOLD, 20));
+        this.texto = new JLabel();
+        texto.setFont(new Font(null, Font.BOLD, 15));
 
-        JTextField textField = new JTextField(30);
-        textField.setFont(new Font(null, Font.BOLD, 20));
-        textField.setPreferredSize(new Dimension(200, 30));
+        this.campoHora = new JTextField();
+        campoHora.setFont(new Font(null, Font.BOLD, 20));
+        campoHora.setSize(100, 50);
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        add(label, gbc);
+        this.botao = new BotoesPresidente();
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        add(textField, gbc);
 
-        JButton button = new BotoesPresidente("Enviar");
-        button.setFont(new Font(null, Font.BOLD, 20));
-        button.setPreferredSize(new Dimension(80, 25));
+        this.painel = new JPanel();
+        painel.setLayout(new GridLayout(2, 1, 5, 5));
 
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        add(button, gbc);
+        JPanel caixaEntrada = new JPanel(new GridLayout(1, 2, 5, 5));
+        caixaEntrada.add(texto);
+        caixaEntrada.add(campoHora);
+
+        painel.add(caixaEntrada);
+        painel.add(botao);
+
+
+        add(painel);
+
     }
-
-        public static void main(String[] arg) {
-            JFrame frame = new JFrame("Interface Simples");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(300, 200);
-
-            // Cria um painel e organiza os componentes
-            InterfaceGenerica panel = new InterfaceGenerica();
-            frame.add(panel);
-
-            frame.setVisible(true);
-        }
 }
-
 
 

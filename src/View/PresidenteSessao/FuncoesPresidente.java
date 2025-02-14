@@ -38,4 +38,9 @@ public final class FuncoesPresidente {
         JOptionPane.showMessageDialog(null, "🏁 Ainda nada feito", "xii", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public void votosMagicosBut() {
+        new InterfaceGenerica().setVisible(true);
+
+    }
+
 }

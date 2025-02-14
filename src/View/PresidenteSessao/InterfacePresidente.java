@@ -29,7 +29,7 @@ public class InterfacePresidente extends JFrame {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+
 
         JLabel label = new JLabel("Título de Eleitor:");
         label.setFont(new Font(null, Font.BOLD, 20));
@@ -46,24 +46,32 @@ public class InterfacePresidente extends JFrame {
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(4, 1, 5, 5));
-        panel.add(label);
-        panel.add(tituloEleitorField);
 
-        JPanel botoesSuperiores = new JPanel(new GridLayout(2, 2, 5, 5));
+        JPanel botoesSuperiores = new JPanel(new GridLayout(3, 2, 5, 5));
+        botoesSuperiores.add(label);
+        botoesSuperiores.add(tituloEleitorField);
+
         botoesSuperiores.add(abrirVotacaoButton);
         botoesSuperiores.add(registrarButton);
+
         botoesSuperiores.add(finalizarEleicaoButton);
         botoesSuperiores.add(registrarPessoa);
 
         panel.add(botoesSuperiores);
         panel.add(votosMagicos);
 
-        add(panel);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(panel, gbc);
 
         abrirVotacaoButton.addActionListener(e -> funcoesPresidente.abrirVotacao());
         registrarButton.addActionListener(e -> funcoesPresidente.registrarVoto(tituloEleitorField.getText()));
         finalizarEleicaoButton.addActionListener(e -> funcoesPresidente.finalizarEleicao());
         registrarPessoa.addActionListener(e -> funcoesPresidente.registrarPessoa());
+        votosMagicos.addActionListener(e -> funcoesPresidente.votosMagicosBut());
     }
 
 }
