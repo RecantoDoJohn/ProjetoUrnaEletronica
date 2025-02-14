@@ -19,8 +19,13 @@ public class Main {
 
         // partidos
         Partido tchetcherere = new Partido("tchetcherere", "54");
-        Partido pT = new Partido("Partido Dos Trabalhadores - PT", "45");
-        Partido pL = new Partido("Partido Liberal - PL", "45");
+        eleicao2024.cadastrarPartido(tchetcherere);
+
+        Partido pT = new Partido("Partido Dos Trabalhadores - PT", "13");
+        eleicao2024.cadastrarPartido(pT);
+
+        Partido pL = new Partido("Partido Liberal - PL", "22");
+        eleicao2024.cadastrarPartido(pL);
 
 
         // deputado federal
@@ -63,9 +68,10 @@ public class Main {
         eleicao2024.cadastrarPresidente(bolsonaro);
 
 
-        MediadorInterface urna = new MediadorInterface(eleicao2024);
-        urna.visibilidade(true);
+//        MediadorInterface urna = new MediadorInterface(eleicao2024);
+//        urna.visibilidade(true);
 
-//        eleicao2024.votosMagicos(100);
+        eleicao2024.votosMagicos(100);
+        eleicao2024.calculoEleicaoProporcional();
     }
 }

@@ -12,6 +12,7 @@ public class InterfacePresidente extends JFrame {
     private JButton registrarButton;
     private JButton finalizarEleicaoButton;
     private JButton registrarPessoa;
+    private JButton votosMagicos;
     private FuncoesPresidente funcoesPresidente;
 
     public InterfacePresidente(Eleicao eleicao) {
@@ -21,7 +22,7 @@ public class InterfacePresidente extends JFrame {
 
     private void initUI() {
         setTitle("🗳️ Sistema de Eleição");
-        setSize(500, 300);
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -40,15 +41,22 @@ public class InterfacePresidente extends JFrame {
         registrarButton = new BotoesPresidente("🖊️ Registrar Voto");
         finalizarEleicaoButton = new BotoesPresidente("🏁 Finalizar Eleição");
         registrarPessoa = new BotoesPresidente("\uD83D\uDCD6 Registrar Pessoa");
+        votosMagicos = new BotoesPresidente("✨ Votos Mágicos");
+
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(4, 1, 5, 5));
         panel.add(label);
         panel.add(tituloEleitorField);
-        panel.add(abrirVotacaoButton);
-        panel.add(registrarButton);
-        panel.add(finalizarEleicaoButton);
-        panel.add(registrarPessoa);
+
+        JPanel botoesSuperiores = new JPanel(new GridLayout(2, 2, 5, 5));
+        botoesSuperiores.add(abrirVotacaoButton);
+        botoesSuperiores.add(registrarButton);
+        botoesSuperiores.add(finalizarEleicaoButton);
+        botoesSuperiores.add(registrarPessoa);
+
+        panel.add(botoesSuperiores);
+        panel.add(votosMagicos);
 
         add(panel);
 

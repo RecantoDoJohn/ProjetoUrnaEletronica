@@ -4,6 +4,7 @@ import Pessoas.Candidato;
 import Pessoas.Cargos.*;
 import Pessoas.Eleitor;
 import Pessoas.EleitorMagico;
+import Pessoas.Partido;
 
 import java.security.SecureRandom;
 import java.time.LocalTime;
@@ -33,6 +34,10 @@ public class Eleicao {
     private HashMap<String, Senador> senadorHashMap;
 
     private ArrayList< HashMap<String, ?> > cargosList;
+    private ArrayList< HashMap<String, ?> > cargosProporcionnal;
+    private ArrayList< HashMap<String, ?> > cargosMajoritario;
+
+    private HashMap<String, Partido> partidoHashMap;
 
 
     public Eleicao() {
@@ -45,11 +50,26 @@ public class Eleicao {
         this.governadorHashMap = new HashMap<>();
         this.presidenteHashMap = new HashMap<>();
         this.senadorHashMap = new HashMap<>();
+        this.partidoHashMap = new HashMap<>();
 
         this.cargosList = new ArrayList<>();
+        this.cargosProporcionnal = new ArrayList<>();
+        this.cargosMajoritario = new ArrayList<>();
+
         Collections.addAll(cargosList,
                 deputadoFederalHashMap,
                 deputadoEstadualHashMap,
+                senadorHashMap,
+                governadorHashMap,
+                presidenteHashMap
+        );
+
+        Collections.addAll(cargosProporcionnal,
+                deputadoFederalHashMap,
+                deputadoEstadualHashMap
+        );
+
+        Collections.addAll(cargosMajoritario,
                 senadorHashMap,
                 governadorHashMap,
                 presidenteHashMap
@@ -71,6 +91,10 @@ public class Eleicao {
         3 Governador e Vice-Governador: 2 dígitos;
         4 Presidente e Vice-Presidente da República: também 2 dígitos.
         */
+    }
+
+    public void cadastrarPartido(Partido partido) {
+        this.partidoHashMap.put(partido.getNumeroPartido(), partido);
     }
 
     public void cadastrarEleitor(Eleitor novoEleitor) {
@@ -207,27 +231,52 @@ public class Eleicao {
         this.cadastrarEleitor(oz);
         this.selecionarEleitor(oz.getTituloEleitoral());
 
-        Random geradorNumeroAleatorio = new Random();
+        SecureRandom geradorNumeroAleatorio = new SecureRandom();
 
         for (int i= 0; i <= quantEleitores - 1; i++) {
             for (HashMap<String, ?> cargo : cargosList) {
 
-                int num = geradorNumeroAleatorio.nextInt(cargo.size() + 2); // ta estranho ele tem preferencia por numeros altos...
+                int num = geradorNumeroAleatorio.nextInt(cargo.size() + 1);
 
                 String[] listaNumeros = cargo.keySet().toArray(new String[0]);
 
                 if (num < cargo.size()) {
                     this.registrarVoto(listaNumeros[num]);
-                } else if (num == cargo.size()) {
-                    addVotoBranco();
                 } else {
-                    this.registrarVoto("00");
+                    if (geradorNumeroAleatorio.nextInt(2) == 0) {
+                        addVotoBranco();
+                    }
+                    else {
+                        this.registrarVoto("00");
+                    }
                 }
             }
 
         }
 
         gerarRelatorio();
+    }
+
+
+
+    public void calculoEleicaoProporcional() {
+        int[] quantCadeiras = {5, 5};
+
+        int indexCargo = 0;
+        for (HashMap<String, ?> cargo : cargosProporcionnal) {
+            HashMap<String, Candidato> novoCargo = (HashMap<String, Candidato>) cargo;
+            int votosValidosCargos = novoCargo.values().stream().mapToInt(Candidato::getQntVotos).sum();
+            int quoEleitoral = votosValidosCargos / quantCadeiras[indexCargo];
+
+            for (Partido partido : this.partidoHashMap.values()) {
+                partido.setCadeiras(indexCargo, partido.getVotos(indexCargo) / quoEleitoral);
+                System.out.printf("\n%s = %d", partido.getNomePartido(), partido.getCadeirasCargo(indexCargo));
+            }
+            indexCargo++;
+        }
+
+
+
     }
 }
 

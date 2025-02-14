@@ -1,7 +1,7 @@
 package Pessoas;
 
 // usar strategy
-public class Candidato extends Pessoa {
+public abstract class Candidato extends Pessoa {
     private String numero;
     private Partido partido;
     private int qntVotos;
@@ -19,6 +19,7 @@ public class Candidato extends Pessoa {
 
     public void receberVoto() {
         qntVotos++;
+        this.partido.receberVoto(this.ordem);
     }
 
     public String getNumero() {
