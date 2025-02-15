@@ -16,7 +16,7 @@ public class Eleicao {
     private HashMap<String, Candidato> candidatos;
     private Boolean aberto;
     private LocalTime horarioDeAbertura;
-    private static final LocalTime horarioDeFechamento = LocalTime.of(20,0);
+    private LocalTime horarioDeFechamento;
     private Eleitor eleitorDoMomento;
     private String[] nomesCargos;
 
@@ -188,10 +188,13 @@ public class Eleicao {
             System.out.printf("Votos nulo: %d\n", listaVotoNulo[index]);
             System.out.printf("Votos brancos: %d\n", listaVotoBranco[index++]);
         }
+
+        this.calculoEleicaoProporcional();
     }
 
     public void verificarHorario() {
         LocalTime horaAgora = LocalTime.now();
+        System.out.println(this.horarioDeFechamento);
 
         if (horaAgora.isBefore(horarioDeAbertura) || horaAgora.isAfter(horarioDeFechamento)) {
             finalizarEleicao();
@@ -202,7 +205,12 @@ public class Eleicao {
     public void definirHorarioDeAbertura() {
         if (horarioDeAbertura == null) {
             this.horarioDeAbertura = LocalTime.now();
-            verificarHorario();
+        }
+    }
+
+    public void definirHorarioDeFechamento(int hora) {
+        if (horarioDeFechamento == null) {
+            this.horarioDeFechamento = LocalTime.of(hora, 0, 0, 0);
         }
     }
 
@@ -227,37 +235,38 @@ public class Eleicao {
 
     public void votosMagicos(int quantEleitores) {
 
-        Eleitor oz = new EleitorMagico("Oz", "000", 99, "abcd");
-        this.cadastrarEleitor(oz);
-        this.selecionarEleitor(oz.getTituloEleitoral());
+        if (this.aberto) {
+            Eleitor oz = new EleitorMagico("Oz", "000", 99, "abcd");
+            this.cadastrarEleitor(oz);
+            this.selecionarEleitor(oz.getTituloEleitoral());
 
-        SecureRandom geradorNumeroAleatorio = new SecureRandom();
+            SecureRandom geradorNumeroAleatorio = new SecureRandom();
 
-        for (int i= 0; i <= quantEleitores - 1; i++) {
-            for (HashMap<String, ?> cargo : cargosList) {
+            for (int i= 0; i <= quantEleitores - 1; i++) {
+                for (HashMap<String, ?> cargo : cargosList) {
 
-                int num = geradorNumeroAleatorio.nextInt(cargo.size() + 1);
+                    int num = geradorNumeroAleatorio.nextInt(cargo.size() + 1);
 
-                String[] listaNumeros = cargo.keySet().toArray(new String[0]);
+                    String[] listaNumeros = cargo.keySet().toArray(new String[0]);
 
-                if (num < cargo.size()) {
-                    this.registrarVoto(listaNumeros[num]);
-                } else {
-                    if (geradorNumeroAleatorio.nextInt(2) == 0) {
-                        addVotoBranco();
-                    }
-                    else {
-                        this.registrarVoto("00");
+                    if (num < cargo.size()) {
+                        this.registrarVoto(listaNumeros[num]);
+                    } else {
+                        if (geradorNumeroAleatorio.nextInt(2) == 0) {
+                            addVotoBranco();
+                        }
+                        else {
+                            this.registrarVoto("00");
+                        }
                     }
                 }
+
             }
 
         }
 
-        gerarRelatorio();
+
     }
-
-
 
     public void calculoEleicaoProporcional() {
         int[] quantCadeiras = {5, 5};
@@ -266,12 +275,13 @@ public class Eleicao {
         for (HashMap<String, ?> cargo : cargosProporcionnal) {
             HashMap<String, Candidato> novoCargo = (HashMap<String, Candidato>) cargo;
             int votosValidosCargos = novoCargo.values().stream().mapToInt(Candidato::getQntVotos).sum();
-            int quoEleitoral = votosValidosCargos / quantCadeiras[indexCargo];
+            float quoEleitoral = (float) votosValidosCargos / quantCadeiras[indexCargo];
 
             for (Partido partido : this.partidoHashMap.values()) {
-                partido.setCadeiras(indexCargo, partido.getVotos(indexCargo) / quoEleitoral);
+                partido.setCadeiras(indexCargo, (int) (partido.getVotos(indexCargo) / quoEleitoral));
                 System.out.printf("\n%s = %d", partido.getNomePartido(), partido.getCadeirasCargo(indexCargo));
             }
+            System.out.println("\n");
             indexCargo++;
         }
 

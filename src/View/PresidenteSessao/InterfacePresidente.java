@@ -22,7 +22,7 @@ public class InterfacePresidente extends JFrame {
 
     private void initUI() {
         setTitle("🗳️ Sistema de Eleição");
-        setSize(500, 400);
+        setSize(500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -40,12 +40,12 @@ public class InterfacePresidente extends JFrame {
         abrirVotacaoButton = new BotoesPresidente("📢 Abrir Eleição");
         registrarButton = new BotoesPresidente("🖊️ Registrar Voto");
         finalizarEleicaoButton = new BotoesPresidente("🏁 Finalizar Eleição");
-        registrarPessoa = new BotoesPresidente("\uD83D\uDCD6 Registrar Pessoa");
+//        registrarPessoa = new BotoesPresidente("\uD83D\uDCD6 Registrar Pessoa");
         votosMagicos = new BotoesPresidente("✨ Votos Mágicos");
 
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 1, 5, 5));
+        panel.setLayout(new GridLayout(2, 1, 5, 5));
 
         JPanel botoesSuperiores = new JPanel(new GridLayout(3, 2, 5, 5));
         botoesSuperiores.add(label);
@@ -55,10 +55,10 @@ public class InterfacePresidente extends JFrame {
         botoesSuperiores.add(registrarButton);
 
         botoesSuperiores.add(finalizarEleicaoButton);
-        botoesSuperiores.add(registrarPessoa);
+        botoesSuperiores.add(votosMagicos);
+//        botoesSuperiores.add(registrarPessoa);
 
         panel.add(botoesSuperiores);
-        panel.add(votosMagicos);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -70,7 +70,7 @@ public class InterfacePresidente extends JFrame {
         abrirVotacaoButton.addActionListener(e -> funcoesPresidente.abrirVotacao());
         registrarButton.addActionListener(e -> funcoesPresidente.registrarVoto(tituloEleitorField.getText()));
         finalizarEleicaoButton.addActionListener(e -> funcoesPresidente.finalizarEleicao());
-        registrarPessoa.addActionListener(e -> funcoesPresidente.registrarPessoa());
+//        registrarPessoa.addActionListener(e -> funcoesPresidente.registrarPessoa());
         votosMagicos.addActionListener(e -> funcoesPresidente.votosMagicosBut());
     }
 

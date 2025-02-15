@@ -13,8 +13,7 @@ public final class FuncoesPresidente {
     }
 
     public void abrirVotacao() {
-        JOptionPane.showMessageDialog(null, "✅ Votação Aberta!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-        eleicao.abrirEleicao();
+        new TelaHorario(eleicao).setVisible(true);
     }
 
     public  void registrarVoto(String tituloEleitor) {
@@ -34,13 +33,12 @@ public final class FuncoesPresidente {
         eleicao.gerarRelatorio();
     }
 
-    public void registrarPessoa() {
-        JOptionPane.showMessageDialog(null, "🏁 Ainda nada feito", "xii", JOptionPane.INFORMATION_MESSAGE);
-    }
-
     public void votosMagicosBut() {
-        new InterfaceGenerica().setVisible(true);
-
+        if (eleicao.getAberto()){
+            new TelaVotosMagicos(eleicao).setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "⚠️ Nao é possivel votar no momento.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }

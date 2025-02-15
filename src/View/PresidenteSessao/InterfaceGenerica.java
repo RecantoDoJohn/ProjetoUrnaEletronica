@@ -1,20 +1,25 @@
 package View.PresidenteSessao;
 
+import Eleicao.Eleicao;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class InterfaceGenerica extends JFrame {
-    private JTextField campoHora;
-    private JPanel painel;
-    private JLabel texto;
-    private JButton botao;
+public abstract class InterfaceGenerica extends JFrame {
+    protected JTextField campoTexto;
+    protected JPanel painel;
+    protected JLabel texto;
+    protected JButton botao;
+    protected Eleicao eleicao;
 
-    public InterfaceGenerica() {
+    public InterfaceGenerica(Eleicao eleicao) {
+        this.eleicao = eleicao;
+
         setTitle("📢 Iniciar Eleição");
         setSize(400, 200);
         setResizable(false);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -23,9 +28,9 @@ public class InterfaceGenerica extends JFrame {
         this.texto = new JLabel();
         texto.setFont(new Font(null, Font.BOLD, 15));
 
-        this.campoHora = new JTextField();
-        campoHora.setFont(new Font(null, Font.BOLD, 20));
-        campoHora.setSize(100, 50);
+        this.campoTexto = new JTextField();
+        campoTexto.setFont(new Font(null, Font.BOLD, 20));
+        campoTexto.setSize(100, 50);
 
         this.botao = new BotoesPresidente();
 
@@ -35,7 +40,7 @@ public class InterfaceGenerica extends JFrame {
 
         JPanel caixaEntrada = new JPanel(new GridLayout(1, 2, 5, 5));
         caixaEntrada.add(texto);
-        caixaEntrada.add(campoHora);
+        caixaEntrada.add(campoTexto);
 
         painel.add(caixaEntrada);
         painel.add(botao);
