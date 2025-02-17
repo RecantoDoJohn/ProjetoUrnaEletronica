@@ -12,9 +12,9 @@ public class Main {
         // eleitores
         eleicao2024.cadastrarEleitor(new Eleitor("joao manuel", "009", 19, "0477"));
         eleicao2024.cadastrarEleitor(new Eleitor("bento kaue", "008", 19, "1234"));
-        eleicao2024.cadastrarEleitor(new Eleitor("ananias carlos", "007", 54, "2783"));
-        eleicao2024.cadastrarEleitor(new Eleitor("michel", "006", 19, "6421"));
-        eleicao2024.cadastrarEleitor(new Eleitor("sidney", "005", 23, "5321"));
+//        eleicao2024.cadastrarEleitor(new Eleitor("ananias carlos", "007", 54, "2783"));
+//        eleicao2024.cadastrarEleitor(new Eleitor("michel", "006", 19, "6421"));
+//        eleicao2024.cadastrarEleitor(new Eleitor("sidney", "005", 23, "5321"));
 
 
         // partidos
@@ -79,11 +79,9 @@ public class Main {
         Presidente bolsonaro = new Presidente("Jair M. Bolsonaro", "123.456.789-99", 69, "22", temaky, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\img\\bolso.jpg");
         eleicao2024.cadastrarPresidente(bolsonaro);
 
-//
-//        MediadorInterface urna = new MediadorInterface(eleicao2024);
-//        urna.visibilidade(true);
 
-        eleicao2024.votosMagicos(30);
-        eleicao2024.gerarRelatorio();
+        MediadorInterface urna = new MediadorInterface(eleicao2024);
+        urna.visibilidade(true);
     }
+
 }

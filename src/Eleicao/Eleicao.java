@@ -29,7 +29,8 @@ public class Eleicao {
     private int votoBrancoDepuFederal, votoBrancoDepuEstatual, votoBracoGovernador, votoBrancoSenador, votoBrancoPresidente;
     private int[] listaVotoBranco = {votoBrancoDepuFederal, votoBrancoDepuEstatual, votoBracoGovernador, votoBrancoSenador, votoBrancoPresidente};
 
-    // ver se isso é jogo ou brisa
+    private HashMap<String, Partido> partidoHashMap;
+
     private HashMap<String, DeputadoEstadual> deputadoEstadualHashMap;
     private HashMap<String, DeputadoFederal> deputadoFederalHashMap;
     private HashMap<String, Governador> governadorHashMap;
@@ -39,8 +40,6 @@ public class Eleicao {
     private ArrayList< HashMap<String, ?> > cargosList;
     private ArrayList< HashMap<String, ?> > cargosProporcionnal;
     private ArrayList< HashMap<String, ?> > cargosMajoritario;
-
-    private HashMap<String, Partido> partidoHashMap;
 
 
     public Eleicao() {
@@ -129,8 +128,6 @@ public class Eleicao {
         this.deputadoFederalHashMap.put(deputadoFederal.getNumero(), deputadoFederal);
     }
 
-
-
     public HashMap<String, Eleitor> getEleitores() {
         return eleitores;
     }
@@ -139,8 +136,17 @@ public class Eleicao {
         return candidatos;
     }
 
+    public Eleitor getEleitorDoMomento() {
+        return eleitorDoMomento;
+    }
+
+    public String getNomeCargo(int i) {
+        return this.nomesCargos[i];
+    }
+
     public void finalizarEleicao() {
         aberto = false;
+        this.gerarRelatorio();
     }
 
     public void abrirEleicao() {
@@ -155,7 +161,6 @@ public class Eleicao {
     public Boolean getAberto() {
         return aberto;
     }
-
 
     public void gerarRelatorio() {
 
@@ -179,18 +184,19 @@ public class Eleicao {
             for (Candidato vencedor : vencedoresMajor) {
                 writer.println(nomesCargos[vencedor.getOrdem()] + "\n" + vencedor.getNome() + "\n");
             }
+            ArrayList<Candidato> vencedoresProporcionais = this.calculoEleicaoProporcional();
 
+            for (Candidato vencedor : vencedoresProporcionais) {
+                writer.println(nomesCargos[vencedor.getOrdem()] + "\n" + vencedor.getNome() + "\n");
+            }
 
-
+            System.out.println("Relatorio gerado com sucesso :D");
 
         } catch (Exception e) {
-            System.err.println("Erro ao criar o arquivo");
+            System.err.println("Erro ao criar o arquivo: " + e);
         }
 
-
-//        this.calculoEleicaoProporcional();
     }
-    // fazer uma funcao que receba o numero do candidato e o titulo e add voto pra algum bagulho
 
     public void registrarVoto(String numeroCandidato) {
         Candidato candidato = this.getCandidatos().get(numeroCandidato);
@@ -200,13 +206,25 @@ public class Eleicao {
         } else {
             candidato.receberVoto();
         }
-        eleitorDoMomento.avancarVoto();
+
+        if(this.eleitorDoMomento.getOrdemVotacao() == 4) {
+            verificarEleitores();
+            verificarHorario();
+        } else {
+            eleitorDoMomento.avancarVoto();
+        }
 
     }
 
     public void addVotoBranco() {
         this.listaVotoBranco[this.eleitorDoMomento.getOrdemVotacao()]++;
-        eleitorDoMomento.avancarVoto();
+
+        if(this.eleitorDoMomento.getOrdemVotacao() == 4) {
+            verificarEleitores();
+            verificarHorario();
+        } else {
+            eleitorDoMomento.avancarVoto();
+        }
     }
 
     private void addVotoNulo() {
@@ -215,12 +233,19 @@ public class Eleicao {
 
     public void verificarHorario() {
         LocalTime horaAgora = LocalTime.now();
-        System.out.println(this.horarioDeFechamento);
 
         if (horaAgora.isBefore(horarioDeAbertura) || horaAgora.isAfter(horarioDeFechamento)) {
             finalizarEleicao();
         }
 
+    }
+
+    public void verificarEleitores() {
+        boolean todosVotaram = eleitores.values().stream()
+                .allMatch(eleitor -> eleitor.getOrdemVotacao() == 4);
+        if (todosVotaram) {
+            finalizarEleicao();
+        }
     }
 
     public void definirHorarioDeAbertura() {
@@ -246,24 +271,16 @@ public class Eleicao {
         }
     }
 
-    public Eleitor getEleitorDoMomento() {
-        return eleitorDoMomento;
-    }
-
-    public String getNomeCargo(int i) {
-            return this.nomesCargos[i];
-    }
-
     public void votosMagicos(int quantEleitores) {
 
-//        if (this.aberto) {
+        if (this.aberto) {
             Eleitor oz = new EleitorMagico("Oz", "000", 99, "abcd");
             this.cadastrarEleitor(oz);
             this.selecionarEleitor(oz.getTituloEleitoral());
 
             SecureRandom geradorNumeroAleatorio = new SecureRandom();
 
-            for (int i= 0; i <= quantEleitores - 1; i++) {
+            for (int i= 0; i < quantEleitores; i++) {
                 for (HashMap<String, ?> cargo : cargosList) {
 
                     int num = geradorNumeroAleatorio.nextInt(cargo.size() + 1);
@@ -284,8 +301,8 @@ public class Eleicao {
 
             }
 
-//        }
-
+            eleitores.remove(oz.getTituloEleitoral());
+        }
 
     }
 
@@ -295,7 +312,7 @@ public class Eleicao {
             HashMap<String, Candidato> novoCargo = (HashMap<String, Candidato>) cargo;
 
             ArrayList<Candidato> listaCargoOrdenada = novoCargo.values().stream()
-                    .sorted(Comparator.comparingInt(Candidato::getQntVotos))
+                    .sorted(Comparator.comparingInt(Candidato::getQntVotos).reversed())
                     .collect(Collectors.toCollection(ArrayList::new));
 
             Candidato vencedor = listaCargoOrdenada.getFirst();
@@ -306,8 +323,9 @@ public class Eleicao {
         return vencedores;
     }
 
-    public void calculoEleicaoProporcional() {
+    public ArrayList<Candidato> calculoEleicaoProporcional() {
         int[] quantCadeiras = {3, 3};
+        ArrayList<Candidato> vencedores = new ArrayList<>();
 
         int indexCargo = 0;
         for (HashMap<String, ?> cargo : cargosProporcionnal) {
@@ -328,8 +346,10 @@ public class Eleicao {
         this.calculoEleicaoMajoritaria();
 
         for (Partido partido : partidoHashMap.values()) {
-            partido.elegerProporcional();
+            vencedores.addAll(partido.elegerProporcional());
         }
+
+        return vencedores;
     }
 }
 

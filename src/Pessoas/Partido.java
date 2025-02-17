@@ -70,34 +70,34 @@ public class Partido {
     }
 
 
-    public void elegerProporcional() {
+    public ArrayList<Candidato> elegerProporcional() {
+        ArrayList<Candidato> vencedores = new ArrayList<>();
+
         ArrayList<DeputadoFederal> depuFederalOrdenada = this.listaDeputadoFederal.stream()
-                .sorted(Comparator.comparingInt(DeputadoFederal::getQntVotos))
+                .sorted(Comparator.comparingInt(DeputadoFederal::getQntVotos).reversed())
                 .collect(Collectors.toCollection(ArrayList::new));
 
         ArrayList<DeputadoEstadual> depuEstadualOrdenada = this.listaDeputadoEstadual.stream()
-                .sorted(Comparator.comparingInt(DeputadoEstadual::getQntVotos))
+                .sorted(Comparator.comparingInt(DeputadoEstadual::getQntVotos).reversed())
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        ArrayList<ArrayList> cargosProporcionais= new ArrayList<>();
+        cargosProporcionais.add(depuEstadualOrdenada);
+        cargosProporcionais.add(depuFederalOrdenada);
 
 
-//        for (int i = 0 ; i < 2; i++) {
+        for (ArrayList listaCargo : cargosProporcionais) {
             for (int y = 0; y < cadeirasCargo[0]; y++) {
-
-                if (depuFederalOrdenada.size() != y) {
-                    Candidato candidatoEleito = depuFederalOrdenada.get(y); // temos os ganhadores :)
-                    System.out.println(candidatoEleito.getNome() + "\n");
+                ArrayList<Candidato> listaCargoCandidadto = (ArrayList<Candidato>) listaCargo;
+                if (listaCargo.size() != y) {
+                    Candidato candidatoEleito = listaCargoCandidadto.get(y); // temos os ganhadores :)
+                    vencedores.add(candidatoEleito);
                 }
             }
 
-        for (int y = 0; y < cadeirasCargo[0]; y++) {
-
-            if (depuFederalOrdenada.size() != y) {
-                Candidato candidatoEleito = depuEstadualOrdenada.get(y); // temos os ganhadores :)
-                System.out.println(candidatoEleito.getNome() + "\n");
-            }
         }
-//        }
+
+        return vencedores;
 
     }
 }

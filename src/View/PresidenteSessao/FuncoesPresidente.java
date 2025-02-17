@@ -18,6 +18,7 @@ public final class FuncoesPresidente {
 
     public  void registrarVoto(String tituloEleitor) {
 
+        eleicao.verificarEleitores();
         eleicao.verificarHorario();
         if (eleicao.selecionarEleitor(tituloEleitor) && eleicao.getAberto()) {
             InterfaceUrna urna = new InterfaceUrna(eleicao);
@@ -30,7 +31,7 @@ public final class FuncoesPresidente {
     public void finalizarEleicao() {
         JOptionPane.showMessageDialog(null, "🏁 Eleição Finalizada!", "Fim", JOptionPane.INFORMATION_MESSAGE);
         eleicao.finalizarEleicao();
-        eleicao.gerarRelatorio();
+
     }
 
     public void votosMagicosBut() {
