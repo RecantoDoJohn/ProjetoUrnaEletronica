@@ -6,9 +6,12 @@ import Pessoas.Eleitor;
 import Pessoas.EleitorMagico;
 import Pessoas.Partido;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.security.SecureRandom;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Eleicao {
@@ -141,6 +144,10 @@ public class Eleicao {
     }
 
     public void abrirEleicao() {
+        candidatos.values().forEach(Candidato::zerarVotos);
+        Arrays.fill(listaVotoBranco, 0);
+        Arrays.fill(listaVotoNulo, 0);
+
         definirHorarioDeAbertura();
         aberto = true;
     }
@@ -150,7 +157,41 @@ public class Eleicao {
     }
 
 
+    public void gerarRelatorio() {
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter("Resultado.txt"))) {
+            writer.println("Horario de abertura: " + horarioDeAbertura);
+            writer.println("Horario de Fechamento: " + LocalTime.now());
+
+            int index = 0;
+
+            for (HashMap<String, ?> cargo : cargosList) {
+                writer.printf("\n%s: \n", nomesCargos[index]);
+                for (Object candidatoCru : cargo.values() ) {
+                    Candidato candidato = (Candidato) candidatoCru;
+                    writer.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
+                }
+                writer.printf("Votos nulo: %d\n", listaVotoNulo[index]);
+                writer.printf("Votos brancos: %d\n", listaVotoBranco[index++]);
+            }
+
+            ArrayList<Candidato> vencedoresMajor = this.calculoEleicaoMajoritaria();
+            for (Candidato vencedor : vencedoresMajor) {
+                writer.println(nomesCargos[vencedor.getOrdem()] + "\n" + vencedor.getNome() + "\n");
+            }
+
+
+
+
+        } catch (Exception e) {
+            System.err.println("Erro ao criar o arquivo");
+        }
+
+
+//        this.calculoEleicaoProporcional();
+    }
     // fazer uma funcao que receba o numero do candidato e o titulo e add voto pra algum bagulho
+
     public void registrarVoto(String numeroCandidato) {
         Candidato candidato = this.getCandidatos().get(numeroCandidato);
 
@@ -170,26 +211,6 @@ public class Eleicao {
 
     private void addVotoNulo() {
         listaVotoNulo[eleitorDoMomento.getOrdemVotacao()]++;
-    }
-
-    public void gerarRelatorio() {
-
-        System.out.println("Horario de abertura: " + horarioDeAbertura);
-        System.out.println("Horario de Fechamento: " + LocalTime.now());
-
-        int index = 0;
-
-        for (HashMap<String, ?> cargo : cargosList) {
-            System.out.printf("\n%s: \n", nomesCargos[index]);
-            for (Object candidatoCru : cargo.values() ) {
-                Candidato candidato = (Candidato) candidatoCru;
-                System.out.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
-            }
-            System.out.printf("Votos nulo: %d\n", listaVotoNulo[index]);
-            System.out.printf("Votos brancos: %d\n", listaVotoBranco[index++]);
-        }
-
-        this.calculoEleicaoProporcional();
     }
 
     public void verificarHorario() {
@@ -235,7 +256,7 @@ public class Eleicao {
 
     public void votosMagicos(int quantEleitores) {
 
-        if (this.aberto) {
+//        if (this.aberto) {
             Eleitor oz = new EleitorMagico("Oz", "000", 99, "abcd");
             this.cadastrarEleitor(oz);
             this.selecionarEleitor(oz.getTituloEleitoral());
@@ -263,30 +284,52 @@ public class Eleicao {
 
             }
 
-        }
+//        }
 
 
     }
 
+    public ArrayList<Candidato> calculoEleicaoMajoritaria() {
+        ArrayList<Candidato> vencedores = new ArrayList<>();
+        for (HashMap<String, ?> cargo : cargosMajoritario) {
+            HashMap<String, Candidato> novoCargo = (HashMap<String, Candidato>) cargo;
+
+            ArrayList<Candidato> listaCargoOrdenada = novoCargo.values().stream()
+                    .sorted(Comparator.comparingInt(Candidato::getQntVotos))
+                    .collect(Collectors.toCollection(ArrayList::new));
+
+            Candidato vencedor = listaCargoOrdenada.getFirst();
+            vencedores.add(vencedor);
+
+        }
+
+        return vencedores;
+    }
+
     public void calculoEleicaoProporcional() {
-        int[] quantCadeiras = {5, 5};
+        int[] quantCadeiras = {3, 3};
 
         int indexCargo = 0;
         for (HashMap<String, ?> cargo : cargosProporcionnal) {
             HashMap<String, Candidato> novoCargo = (HashMap<String, Candidato>) cargo;
-            int votosValidosCargos = novoCargo.values().stream().mapToInt(Candidato::getQntVotos).sum();
-            float quoEleitoral = (float) votosValidosCargos / quantCadeiras[indexCargo];
+            double votosValidosCargos = novoCargo.values().stream().mapToInt(Candidato::getQntVotos).sum();
+            double quoEleitoral = votosValidosCargos / quantCadeiras[indexCargo];
 
             for (Partido partido : this.partidoHashMap.values()) {
-                partido.setCadeiras(indexCargo, (int) (partido.getVotos(indexCargo) / quoEleitoral));
-                System.out.printf("\n%s = %d", partido.getNomePartido(), partido.getCadeirasCargo(indexCargo));
+                double quantFloat = (partido.getVotos(indexCargo) / quoEleitoral);
+                System.out.println("\n");
+                System.out.println(quantFloat);
+                partido.setCadeiras(indexCargo, (int) Math.round(quantFloat));
+                System.out.printf("%s = %d", partido.getNomePartido(), partido.getCadeirasCargo(indexCargo));
             }
             System.out.println("\n");
             indexCargo++;
         }
+        this.calculoEleicaoMajoritaria();
 
-
-
+        for (Partido partido : partidoHashMap.values()) {
+            partido.elegerProporcional();
+        }
     }
 }
 

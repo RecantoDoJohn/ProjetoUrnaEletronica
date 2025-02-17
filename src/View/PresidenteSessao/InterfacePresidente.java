@@ -70,7 +70,6 @@ public class InterfacePresidente extends JFrame {
         abrirVotacaoButton.addActionListener(e -> funcoesPresidente.abrirVotacao());
         registrarButton.addActionListener(e -> funcoesPresidente.registrarVoto(tituloEleitorField.getText()));
         finalizarEleicaoButton.addActionListener(e -> funcoesPresidente.finalizarEleicao());
-//        registrarPessoa.addActionListener(e -> funcoesPresidente.registrarPessoa());
         votosMagicos.addActionListener(e -> funcoesPresidente.votosMagicosBut());
     }
 

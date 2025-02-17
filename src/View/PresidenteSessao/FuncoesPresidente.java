@@ -27,7 +27,7 @@ public final class FuncoesPresidente {
         }
     }
 
-    public  void finalizarEleicao() {
+    public void finalizarEleicao() {
         JOptionPane.showMessageDialog(null, "🏁 Eleição Finalizada!", "Fim", JOptionPane.INFORMATION_MESSAGE);
         eleicao.finalizarEleicao();
         eleicao.gerarRelatorio();
