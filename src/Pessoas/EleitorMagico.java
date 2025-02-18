@@ -8,10 +8,10 @@ public class EleitorMagico extends Eleitor{
 
     @Override
     public void avancarVoto() {
-        if (this.ordemVotacao != 4) {
-            this.ordemVotacao++;
-        } else {
+        if (this.ordemVotacao == 4) {
             this.ordemVotacao = 0;
+        } else {
+            this.ordemVotacao++;
         }
     }
 }

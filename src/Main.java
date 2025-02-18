@@ -82,6 +82,9 @@ public class Main {
 
         MediadorInterface urna = new MediadorInterface(eleicao2024);
         urna.visibilidade(true);
+
+        eleicao2024.votosMagicos(120);
+        eleicao2024.gerarRelatorio();
     }
 
 }

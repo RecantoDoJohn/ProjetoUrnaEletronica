@@ -46,4 +46,8 @@ public abstract class Candidato extends Pessoa {
     public void zerarVotos() {
         this.qntVotos = 0;
     }
+
+    public void calcularQuoEleitoral() {
+
+    }
 }

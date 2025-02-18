@@ -69,8 +69,12 @@ public class Partido {
         this.listaDeputadoEstadual.add(deputadoEstadual);
     }
 
+    public int mediaVotosProporcionais(int indexCargo) {
+        return listaVoto[indexCargo] / (cadeirasCargo[indexCargo] + 1);
+    }
 
-    public ArrayList<Candidato> elegerProporcional() {
+
+    public ArrayList<Candidato> elegerProporcional(int quoEleitoral) {
         ArrayList<Candidato> vencedores = new ArrayList<>();
 
         ArrayList<DeputadoFederal> depuFederalOrdenada = this.listaDeputadoFederal.stream()
@@ -85,16 +89,23 @@ public class Partido {
         cargosProporcionais.add(depuEstadualOrdenada);
         cargosProporcionais.add(depuFederalOrdenada);
 
-
+        int index = 0;
         for (ArrayList listaCargo : cargosProporcionais) {
-            for (int y = 0; y < cadeirasCargo[0]; y++) {
+
+            for (int y = 0; y < cadeirasCargo[index]; y++) {
                 ArrayList<Candidato> listaCargoCandidadto = (ArrayList<Candidato>) listaCargo;
+
                 if (listaCargo.size() != y) {
                     Candidato candidatoEleito = listaCargoCandidadto.get(y); // temos os ganhadores :)
-                    vencedores.add(candidatoEleito);
+
+
+                    if (candidatoEleito.getQntVotos() == (quoEleitoral * 0.2)) {
+                        vencedores.add(candidatoEleito);
+                        this.cadeirasCargo[index]--;
+                    }
                 }
             }
-
+            index++;
         }
 
         return vencedores;
