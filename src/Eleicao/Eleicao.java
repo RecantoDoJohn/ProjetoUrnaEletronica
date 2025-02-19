@@ -140,8 +140,20 @@ public class Eleicao {
         return eleitorDoMomento;
     }
 
-    public String getNomeCargo(int i) {
-        return this.nomesCargos[i];
+    public String getNomeCargo(int ordemCargo) {
+        return this.nomesCargos[ordemCargo];
+    }
+
+    public void definirHorarioDeAbertura() {
+        if (horarioDeAbertura == null) {
+            this.horarioDeAbertura = LocalTime.now();
+        }
+    }
+
+    public void definirHorarioDeFechamento(int hora) {
+        if (horarioDeFechamento == null) {
+            this.horarioDeFechamento = LocalTime.of(hora, 0, 0, 0);
+        }
     }
 
     public void finalizarEleicao() {
@@ -185,14 +197,17 @@ public class Eleicao {
             ArrayList<Candidato> vencedoresPro = this.calculoEleicaoProporcional();
             vencedores.addAll(vencedoresPro);
 
-            vencedores.sort(Comparator.comparing(Candidato::getOrdem));
+            if (vencedores != null) {
+                vencedores.sort(Comparator.comparing(Candidato::getOrdem));
 
-            writer.println("Vencedores: \n");
-            for (int i = 0; i < vencedores.size(); i++) {
-                writer.println(nomesCargos[vencedores.get(i).getOrdem()] + "\n" + vencedores.get(i).getNome() + "\n");
+                writer.println("Vencedores: \n");
+                for (int i = 0; i < vencedores.size(); i++) {
+                    writer.println(nomesCargos[vencedores.get(i).getOrdem()] + "\n" + vencedores.get(i).getNome() + "\n");
+                }
+
+                System.out.println("Relatorio gerado com sucesso :D");
             }
 
-            System.out.println("Relatorio gerado com sucesso :D");
 
         } catch (Exception e) {
             System.err.println("Erro ao criar o arquivo: " + e);
@@ -210,8 +225,8 @@ public class Eleicao {
         }
 
         if (this.eleitorDoMomento.getOrdemVotacao() == 4) {
-            verificarEleitores();
-//            verificarHorario();
+            verificarEleitoresRestantes();
+            verificarHorario();
         }
         eleitorDoMomento.avancarVoto();
     }
@@ -220,7 +235,7 @@ public class Eleicao {
         this.listaVotoBranco[this.eleitorDoMomento.getOrdemVotacao()]++;
 
         if(this.eleitorDoMomento.getOrdemVotacao() == 4) {
-            verificarEleitores();
+            verificarEleitoresRestantes();
 //            verificarHorario();
         }
             eleitorDoMomento.avancarVoto();
@@ -240,23 +255,11 @@ public class Eleicao {
 
     }
 
-    public void verificarEleitores() {
+    public void verificarEleitoresRestantes() {
         boolean todosVotaram = eleitores.values().stream()
                 .allMatch(eleitor -> eleitor.getOrdemVotacao() == 4);
         if (todosVotaram) {
             finalizarEleicao();
-        }
-    }
-
-    public void definirHorarioDeAbertura() {
-        if (horarioDeAbertura == null) {
-            this.horarioDeAbertura = LocalTime.now();
-        }
-    }
-
-    public void definirHorarioDeFechamento(int hora) {
-        if (horarioDeFechamento == null) {
-            this.horarioDeFechamento = LocalTime.of(hora, 0, 0, 0);
         }
     }
 
@@ -273,7 +276,7 @@ public class Eleicao {
 
     public void votosMagicos(int quantEleitores) {
 
-//        if (this.aberto) {
+        if (this.aberto) {
             Eleitor oz = new EleitorMagico("Oz", "000", 99, "abcd");
             this.cadastrarEleitor(oz);
             this.selecionarEleitor(oz.getTituloEleitoral());
@@ -283,12 +286,12 @@ public class Eleicao {
             for (int i= 0; i < quantEleitores; i++) {
                 for (HashMap<String, ?> cargo : cargosList) {
 
-                    int num = geradorNumeroAleatorio.nextInt(cargo.size() + 1);
+                    int numeroAleatorio = geradorNumeroAleatorio.nextInt(cargo.size());
 
                     String[] listaNumeros = cargo.keySet().toArray(new String[0]);
 
-                    if (num < cargo.size()) {
-                        this.registrarVoto(listaNumeros[num]);
+                    if (numeroAleatorio < cargo.size()) {
+                        this.registrarVoto(listaNumeros[numeroAleatorio]);
                     }
                     else {
                         if (geradorNumeroAleatorio.nextInt(2) == 0) {
@@ -300,7 +303,7 @@ public class Eleicao {
                     }
                 }
 
-//            }
+            }
 
             eleitores.remove(oz.getTituloEleitoral());
         }
@@ -325,7 +328,7 @@ public class Eleicao {
     }
 
     public ArrayList<Candidato> calculoEleicaoProporcional() {
-        int[] quantCadeiras = { 7, 7};
+        int[] quantCadeiras = { 2, 3};
         ArrayList<Candidato> vencedores = new ArrayList<>();
 
         // fazer a distribuicao do resto
@@ -338,22 +341,41 @@ public class Eleicao {
 
             for (Partido partido : this.partidoHashMap.values()) {
                 int quoPartidario = (int) (partido.getVotos(indexCargo) / quoEleitoral);
-                System.out.println("\n");
-                System.out.println(quoPartidario);
-                partido.setCadeiras(indexCargo, quoPartidario); // aqui vai rodar
-                quantCadeiras[indexCargo] -= quoPartidario; // tambem
-                System.out.printf("%s = %d", partido.getNomePartido(), partido.getCadeirasCargo(indexCargo));
+
+                partido.addCadeiras(indexCargo, quoPartidario);
+                vencedores.addAll(partido.elegerProporcional(indexCargo, quoPartidario));
+                quantCadeiras[indexCargo] -= partido.getCadeirasCargo(indexCargo);
             }
 
 
+            // redistribuir
+            while (quantCadeiras[indexCargo] != 0) {
+                double maiorMedia = 0;
+                Partido maiorPartido = null;
 
-            System.out.println("\n");
+                for (Partido partido : this.partidoHashMap.values()) {
+                    int mediaPartido = partido.mediaVotosProporcionais(indexCargo);
+
+                    if (mediaPartido > maiorMedia) {
+                        maiorMedia = mediaPartido;
+                        maiorPartido = partido;
+                    }
+                }
+                if (maiorPartido != null) {
+                    maiorPartido.addCadeiras(indexCargo, 1);
+                    int quoPartidario = (int) (maiorPartido.getVotos(indexCargo) / quoEleitoral);
+
+                    for (Candidato vencedor: maiorPartido.elegerProporcional(indexCargo, quoPartidario)) {
+                        if (!vencedores.contains(vencedor)) {
+                            vencedores.add(vencedor);
+                        }
+                    }
+                    quantCadeiras[indexCargo] -= 1;
+                }
+
+            }
+
             indexCargo++;
-        }
-        this.calculoEleicaoMajoritaria();
-
-        for (Partido partido : partidoHashMap.values()) {
-            vencedores.addAll(partido.elegerProporcional());
         }
 
         return vencedores;

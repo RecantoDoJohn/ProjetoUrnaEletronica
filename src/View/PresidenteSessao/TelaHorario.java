@@ -3,6 +3,7 @@ package View.PresidenteSessao;
 import Eleicao.Eleicao;
 
 import javax.swing.*;
+import java.time.LocalTime;
 
 public class TelaHorario extends InterfaceGenerica {
 
@@ -19,10 +20,14 @@ public class TelaHorario extends InterfaceGenerica {
         if (textCampo != null) {
             try {
                 int hora = Integer.parseInt(textCampo);
-                eleicao.definirHorarioDeFechamento(hora);
-                eleicao.abrirEleicao();
-                this.dispose();
-                JOptionPane.showMessageDialog(null, "✅ Votação Aberta!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                if (hora > LocalTime.now().getHour()) {
+                    eleicao.definirHorarioDeFechamento(hora);
+                    eleicao.abrirEleicao();
+                    this.dispose();
+                    JOptionPane.showMessageDialog(null, "✅ Votação Aberta!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "⚠️ Insera um numero valido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "⚠️ Insera um numero valido.", "Erro", JOptionPane.ERROR_MESSAGE);

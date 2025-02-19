@@ -18,7 +18,7 @@ public final class FuncoesPresidente {
 
     public  void registrarVoto(String tituloEleitor) {
 
-        eleicao.verificarEleitores();
+        eleicao.verificarEleitoresRestantes();
         eleicao.verificarHorario();
         if (eleicao.selecionarEleitor(tituloEleitor) && eleicao.getAberto()) {
             InterfaceUrna urna = new InterfaceUrna(eleicao);
@@ -41,5 +41,6 @@ public final class FuncoesPresidente {
             JOptionPane.showMessageDialog(null, "⚠️ Nao é possivel votar no momento.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
 }

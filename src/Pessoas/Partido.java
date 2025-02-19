@@ -20,6 +20,7 @@ public class Partido {
     private ArrayList<Senador> listaSenandor;
     private ArrayList<Governador> listaGovernador;
     private ArrayList<Presidente> listaPresidente;
+    private ArrayList<ArrayList> listaCargoProporcional;
 
     public Partido(String nomePartido, String numeroPartido) {
         this.nomePartido = nomePartido;
@@ -32,6 +33,10 @@ public class Partido {
         this.listaSenandor = new ArrayList<>();
         this.listaGovernador = new ArrayList<>();
         this.listaPresidente = new ArrayList<>();
+
+        this.listaCargoProporcional = new ArrayList<>();
+        this.listaCargoProporcional.add(listaDeputadoFederal);
+        this.listaCargoProporcional.add(listaDeputadoEstadual);
     }
 
     public String getNome() {
@@ -53,8 +58,8 @@ public class Partido {
         return this.listaVoto[ordemCargo];
     }
 
-    public void setCadeiras(int i, int quantCadeiras) {
-        this.cadeirasCargo[i] = quantCadeiras;
+    public void addCadeiras(int i, int quantCadeiras) {
+        this.cadeirasCargo[i] += quantCadeiras;
     }
 
     public int getCadeirasCargo(int i) {
@@ -74,39 +79,27 @@ public class Partido {
     }
 
 
-    public ArrayList<Candidato> elegerProporcional(int quoEleitoral) {
+    // por cargo separado
+    public ArrayList<Candidato> elegerProporcional(int cargoIndex, int quoEleitoral) {
         ArrayList<Candidato> vencedores = new ArrayList<>();
 
-        ArrayList<DeputadoFederal> depuFederalOrdenada = this.listaDeputadoFederal.stream()
-                .sorted(Comparator.comparingInt(DeputadoFederal::getQntVotos).reversed())
+        ArrayList<Candidato> cargo = (ArrayList<Candidato>) this.listaCargoProporcional.get(cargoIndex);
+
+        ArrayList<Candidato> cargoOrdenado = cargo.stream()
+                .sorted(Comparator.comparingInt(Candidato::getQntVotos).reversed())
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        ArrayList<DeputadoEstadual> depuEstadualOrdenada = this.listaDeputadoEstadual.stream()
-                .sorted(Comparator.comparingInt(DeputadoEstadual::getQntVotos).reversed())
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        ArrayList<ArrayList> cargosProporcionais= new ArrayList<>();
-        cargosProporcionais.add(depuEstadualOrdenada);
-        cargosProporcionais.add(depuFederalOrdenada);
-
-        int index = 0;
-        for (ArrayList listaCargo : cargosProporcionais) {
-
-            for (int y = 0; y < cadeirasCargo[index]; y++) {
-                ArrayList<Candidato> listaCargoCandidadto = (ArrayList<Candidato>) listaCargo;
-
-                if (listaCargo.size() != y) {
-                    Candidato candidatoEleito = listaCargoCandidadto.get(y); // temos os ganhadores :)
-
-
-                    if (candidatoEleito.getQntVotos() == (quoEleitoral * 0.2)) {
-                        vencedores.add(candidatoEleito);
-                        this.cadeirasCargo[index]--;
-                    }
+        for (int numeroCadeira = 0; numeroCadeira < cadeirasCargo[cargoIndex]; numeroCadeira++) {
+            if (cargoOrdenado.size() != numeroCadeira) {
+                Candidato candidatoEleito = cargoOrdenado.get(numeroCadeira);
+                if (candidatoEleito.calcularQuoIndividual(quoEleitoral)) {
+                    vencedores.add(candidatoEleito);
+                } else {
+                    this.cadeirasCargo[cargoIndex]--;
                 }
             }
-            index++;
         }
+
 
         return vencedores;
 

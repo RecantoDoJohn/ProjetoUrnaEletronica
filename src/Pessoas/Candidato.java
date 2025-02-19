@@ -47,7 +47,12 @@ public abstract class Candidato extends Pessoa {
         this.qntVotos = 0;
     }
 
-    public void calcularQuoEleitoral() {
-
+    public boolean calcularQuoIndividual(int quoEleitoral) {
+        // > 10% do quoEleitoral
+        if (qntVotos >  (quoEleitoral * 0.2) ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
