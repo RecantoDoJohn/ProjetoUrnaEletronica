@@ -2,12 +2,14 @@ package View.UrnaEletronica;
 
 import Eleicao.Eleicao;
 import Pessoas.Candidato;
+import View.Audio;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 public class TeclaNum extends JButton implements ActionListener {
 
@@ -16,6 +18,7 @@ public class TeclaNum extends JButton implements ActionListener {
     private FotoCandidato fotoCandidato;
     private TelaCadidato telaCadidato;
     private Eleicao eleicao;
+    private Audio audioBip;
 
     public TeclaNum(String numero, CampoNumero campoNumero, FotoCandidato fotoCandidato, TelaCadidato telaCandidato, Eleicao eleicao) {
         super(numero);
@@ -31,6 +34,9 @@ public class TeclaNum extends JButton implements ActionListener {
         this.setFocusPainted(false);
         this.setBorder(new LineBorder(Color.DARK_GRAY, 1));
         this.addActionListener(this);
+
+        this.audioBip = new Audio("C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\audio\\bipTecla.wav");
+
     }
 
     @Override
@@ -40,6 +46,15 @@ public class TeclaNum extends JButton implements ActionListener {
         Candidato candidato = eleicao.getCandidatos().get(numeroTela);
 
         campoNumero.setText(numeroTela);
+
+        audioBip.tocar();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        audioBip.liberar();
 
         if (candidato != null && candidato.getOrdem() == eleicao.getEleitorDoMomento().getOrdemVotacao()) {
             fotoCandidato.atualizarFoto(candidato);

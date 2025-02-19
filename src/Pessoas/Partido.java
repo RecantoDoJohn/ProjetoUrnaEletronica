@@ -50,6 +50,7 @@ public class Partido {
     public void receberVoto(int ordemCargo) {
         this.listaVoto[ordemCargo]++;
     }
+
     public String getNumeroPartido() {
         return this.numeroPartido;
     }

@@ -187,9 +187,9 @@ public class Eleicao {
                 writer.printf("\n%s: \n", nomesCargos[index]);
                 for (Object candidatoCru : cargo.values() ) {
                     Candidato candidato = (Candidato) candidatoCru;
-                    writer.printf("%s: %d\n", candidato.getNome(),candidato.getQntVotos());
+                    writer.printf("%s - %s: %d\n", candidato.getNome(), candidato.getPartido().getNome(), candidato.getQntVotos());
                 }
-                writer.printf("Votos nulo: %d\n", listaVotoNulo[index]);
+                writer.printf("\nVotos nulo: %d\n", listaVotoNulo[index]);
                 writer.printf("Votos brancos: %d\n\n", listaVotoBranco[index++]);
             }
 
@@ -202,7 +202,7 @@ public class Eleicao {
 
                 writer.println("Vencedores: \n");
                 for (int i = 0; i < vencedores.size(); i++) {
-                    writer.println(nomesCargos[vencedores.get(i).getOrdem()] + "\n" + vencedores.get(i).getNome() + "\n");
+                    writer.println(nomesCargos[vencedores.get(i).getOrdem()] + "\n" + vencedores.get(i).getNome() + vencedores.get(i).getPartido().getNome() + "\n");
                 }
 
                 System.out.println("Relatorio gerado com sucesso :D");
@@ -286,7 +286,7 @@ public class Eleicao {
             for (int i= 0; i < quantEleitores; i++) {
                 for (HashMap<String, ?> cargo : cargosList) {
 
-                    int numeroAleatorio = geradorNumeroAleatorio.nextInt(cargo.size());
+                    int numeroAleatorio = geradorNumeroAleatorio.nextInt(cargo.size() + 1);
 
                     String[] listaNumeros = cargo.keySet().toArray(new String[0]);
 
@@ -328,7 +328,7 @@ public class Eleicao {
     }
 
     public ArrayList<Candidato> calculoEleicaoProporcional() {
-        int[] quantCadeiras = { 2, 3};
+        int[] quantCadeiras = { 5, 7};
         ArrayList<Candidato> vencedores = new ArrayList<>();
 
         // fazer a distribuicao do resto
