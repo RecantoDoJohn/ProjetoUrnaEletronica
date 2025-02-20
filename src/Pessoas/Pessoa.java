@@ -22,10 +22,5 @@ public class Pessoa {
         return this.idade;
     }
 
-    public boolean verificarCPF() {
-        return false;
-    }
-    public boolean verificarIdade() {
-        return false;
-    }
+
 }

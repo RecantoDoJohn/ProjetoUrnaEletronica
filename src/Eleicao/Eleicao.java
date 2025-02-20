@@ -79,7 +79,7 @@ public class Eleicao {
 
         this.nomesCargos = new String[]{
                 "DEPUTADO FEDERAL",
-                "DEPUTADO ESTADUAl",
+                "DEPUTADO ESTADUAL",
                 "SENADOR",
                 "GOVERNADOR",
                 "PRESIDENTE"
@@ -181,16 +181,16 @@ public class Eleicao {
             writer.println("Horario de abertura: " + horarioDeAbertura);
             writer.println("Horario de Fechamento: " + LocalTime.now());
 
-            int index = 0;
+            int indexCargo = 0;
 
             for (HashMap<String, ?> cargo : cargosList) {
-                writer.printf("\n%s: \n", nomesCargos[index]);
+                writer.printf("\n%s: \n", nomesCargos[indexCargo]);
                 for (Object candidatoCru : cargo.values() ) {
                     Candidato candidato = (Candidato) candidatoCru;
                     writer.printf("%s - %s: %d\n", candidato.getNome(), candidato.getPartido().getNome(), candidato.getQntVotos());
                 }
-                writer.printf("\nVotos nulo: %d\n", listaVotoNulo[index]);
-                writer.printf("Votos brancos: %d\n\n", listaVotoBranco[index++]);
+                writer.printf("\nVotos nulo: %d\n", listaVotoNulo[indexCargo]);
+                writer.printf("Votos brancos: %d\n\n", listaVotoBranco[indexCargo++]);
             }
 
             ArrayList<Candidato> vencedores = this.calculoEleicaoMajoritaria();
@@ -236,7 +236,7 @@ public class Eleicao {
 
         if(this.eleitorDoMomento.getOrdemVotacao() == 4) {
             verificarEleitoresRestantes();
-//            verificarHorario();
+            verificarHorario();
         }
             eleitorDoMomento.avancarVoto();
 
@@ -331,7 +331,7 @@ public class Eleicao {
         int[] quantCadeiras = { 5, 7};
         ArrayList<Candidato> vencedores = new ArrayList<>();
 
-        // fazer a distribuicao do resto
+
         int indexCargo = 0;
         for (HashMap<String, ?> cargo : cargosProporcionnal) {
             HashMap<String, Candidato> novoCargo = (HashMap<String, Candidato>) cargo;

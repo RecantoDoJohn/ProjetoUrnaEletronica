@@ -9,16 +9,6 @@ public class Eleitor extends Pessoa{
     protected int ordemVotacao;
 
 
-    public Eleitor(int zona, int secao, String municipio, String uf, String tituloEleitoral) {
-        super(tituloEleitoral, municipio, secao);
-        this.zona = zona;
-        this.secao = secao;
-        this.municipio = municipio;
-        this.uf = uf;
-        this.tituloEleitoral = tituloEleitoral;
-        this.ordemVotacao = 0;
-
-    }
 
     public Eleitor(String nome, String cpf, int idade, String tituloEleitoral) {
         super(nome, cpf, idade);
