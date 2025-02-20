@@ -11,12 +11,11 @@ public class InterfacePresidente extends JFrame {
     private JButton abrirVotacaoButton;
     private JButton registrarButton;
     private JButton finalizarEleicaoButton;
-    private JButton registrarPessoa;
-    private JButton votosMagicos;
+    private JButton votosMagicosButton;
     private FuncoesPresidente funcoesPresidente;
 
     public InterfacePresidente(Eleicao eleicao) {
-        this.funcoesPresidente = new FuncoesPresidente(eleicao);
+        this.funcoesPresidente = new FuncoesPresidente(eleicao, this);
         initUI();
     }
 
@@ -40,8 +39,7 @@ public class InterfacePresidente extends JFrame {
         abrirVotacaoButton = new BotoesPresidente("📢 Abrir Eleição");
         registrarButton = new BotoesPresidente("🖊️ Registrar Voto");
         finalizarEleicaoButton = new BotoesPresidente("🏁 Finalizar Eleição");
-//        registrarPessoa = new BotoesPresidente("\uD83D\uDCD6 Registrar Pessoa");
-        votosMagicos = new BotoesPresidente("✨ Votos Mágicos");
+        votosMagicosButton = new BotoesPresidente("✨ Votos Mágicos");
 
 
         JPanel panel = new JPanel();
@@ -55,8 +53,7 @@ public class InterfacePresidente extends JFrame {
         botoesSuperiores.add(registrarButton);
 
         botoesSuperiores.add(finalizarEleicaoButton);
-        botoesSuperiores.add(votosMagicos);
-//        botoesSuperiores.add(registrarPessoa);
+        botoesSuperiores.add(votosMagicosButton);
 
         panel.add(botoesSuperiores);
 
@@ -70,7 +67,7 @@ public class InterfacePresidente extends JFrame {
         abrirVotacaoButton.addActionListener(e -> funcoesPresidente.abrirVotacao());
         registrarButton.addActionListener(e -> funcoesPresidente.registrarVoto(tituloEleitorField.getText()));
         finalizarEleicaoButton.addActionListener(e -> funcoesPresidente.finalizarEleicao());
-        votosMagicos.addActionListener(e -> funcoesPresidente.votosMagicosBut());
+        votosMagicosButton.addActionListener(e -> funcoesPresidente.votosMagicosBut());
     }
 
 }

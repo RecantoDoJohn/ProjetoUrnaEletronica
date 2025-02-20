@@ -31,7 +31,7 @@ public class TecladoNumerico extends JPanel {
     }
 
     private void addBotaoNumerico(JPanel painel, String numero) {
-        TeclaNum botao = new TeclaNum(numero, campoNumero, fotoCandidato, telaCadidato, eleicao, "C:\\Users\\Michel Jr\\IdeaProjects\\ProjetoUrna\\src\\View\\audio\\bipTecla.wav");
+        TeclaNum botao = new TeclaNum(numero, campoNumero, fotoCandidato, telaCadidato, eleicao, "C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\audio\\bipTecla.wav");
         painel.add(botao);
     }
 

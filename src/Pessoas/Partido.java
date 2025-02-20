@@ -43,10 +43,6 @@ public class Partido {
         return nomePartido;
     }
 
-    public String getNomePartido() {
-        return nomePartido;
-    }
-
     public void receberVoto(int ordemCargo) {
         this.listaVoto[ordemCargo]++;
     }
@@ -59,12 +55,12 @@ public class Partido {
         return this.listaVoto[ordemCargo];
     }
 
-    public void addCadeiras(int i, int quantCadeiras) {
-        this.cadeirasCargo[i] += quantCadeiras;
+    public void addCadeiras(int ordemCargo, int quantCadeiras) {
+        this.cadeirasCargo[ordemCargo] += quantCadeiras;
     }
 
-    public int getCadeirasCargo(int i) {
-        return cadeirasCargo[i];
+    public int getCadeirasCargo(int ordemCargo) {
+        return cadeirasCargo[ordemCargo];
     }
 
     public void addDeputadoFederal(DeputadoFederal deputadoFederal) {

@@ -7,9 +7,12 @@ import javax.swing.*;
 
 public final class FuncoesPresidente {
     private Eleicao eleicao;
+    private InterfaceUrna interfaceUrna;
+    private InterfacePresidente interfacePresidente;
 
-    public FuncoesPresidente(Eleicao eleicao) {
+    public FuncoesPresidente(Eleicao eleicao, InterfacePresidente interfacePresidente) {
         this.eleicao = eleicao;
+        this.interfacePresidente = interfacePresidente;
     }
 
     public void abrirVotacao() {
@@ -21,8 +24,8 @@ public final class FuncoesPresidente {
         eleicao.verificarEleitoresRestantes();
         eleicao.verificarHorario();
         if (eleicao.selecionarEleitor(tituloEleitor) && eleicao.getAberto()) {
-            InterfaceUrna urna = new InterfaceUrna(eleicao);
-            urna.visivel(true);
+            interfaceUrna = new InterfaceUrna(eleicao);
+            interfaceUrna.visivel(true);
         } else {
             JOptionPane.showMessageDialog(null, "⚠️ Nao é possivel votar no momento.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -31,6 +34,7 @@ public final class FuncoesPresidente {
     public void finalizarEleicao() {
         JOptionPane.showMessageDialog(null, "🏁 Eleição Finalizada!", "Fim", JOptionPane.INFORMATION_MESSAGE);
         eleicao.finalizarEleicao();
+        interfacePresidente.dispose();
 
     }
 
