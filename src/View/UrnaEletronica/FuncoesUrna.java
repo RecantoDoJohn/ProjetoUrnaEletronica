@@ -22,7 +22,7 @@ public class FuncoesUrna {
         this.fotoCandidato = fotoCandidato;
         this.eleicao = eleicao;
         this.interfaceUrna = interfaceUrna;
-        this.audioConfirmar = new Audio("C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\audio\\bipTecla.wav");
+        this.audioConfirmar = new Audio("C:\\Users\\Michel Jr\\IdeaProjects\\ProjetoUrna\\src\\View\\audio\\confirmar.wav");
     }
 
     public void votoBranco() {
@@ -53,12 +53,10 @@ public class FuncoesUrna {
         else {
             audioConfirmar.tocar();
             try {
-                Thread.sleep(500); // Aguarda o áudio tocar antes de repetir
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            audioConfirmar.liberar();
 
             if(eleicao.getEleitorDoMomento().getOrdemVotacao() == 4) {
                 interfaceUrna.destruirTela();

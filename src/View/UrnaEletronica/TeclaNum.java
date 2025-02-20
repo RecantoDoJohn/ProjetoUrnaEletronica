@@ -20,7 +20,7 @@ public class TeclaNum extends JButton implements ActionListener {
     private Eleicao eleicao;
     private Audio audioBip;
 
-    public TeclaNum(String numero, CampoNumero campoNumero, FotoCandidato fotoCandidato, TelaCadidato telaCandidato, Eleicao eleicao) {
+    public TeclaNum(String numero, CampoNumero campoNumero, FotoCandidato fotoCandidato, TelaCadidato telaCandidato, Eleicao eleicao, String caminhoAudio) {
         super(numero);
 
         this.eleicao = eleicao;
@@ -35,9 +35,10 @@ public class TeclaNum extends JButton implements ActionListener {
         this.setBorder(new LineBorder(Color.DARK_GRAY, 1));
         this.addActionListener(this);
 
-        this.audioBip = new Audio("C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\audio\\bipTecla.wav");
+        this.audioBip = new Audio(caminhoAudio);
 
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -47,18 +48,19 @@ public class TeclaNum extends JButton implements ActionListener {
 
         campoNumero.setText(numeroTela);
 
-        audioBip.tocar();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-
-        audioBip.liberar();
+        new Thread(() -> {
+            audioBip.tocar();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
 
         if (candidato != null && candidato.getOrdem() == eleicao.getEleitorDoMomento().getOrdemVotacao()) {
             fotoCandidato.atualizarFoto(candidato);
             telaCadidato.textoVotoCandidato(candidato);
+
         } else {
             fotoCandidato.setIcon(null);
             telaCadidato.trocarCargo();

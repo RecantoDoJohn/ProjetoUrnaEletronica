@@ -14,6 +14,9 @@ public class Audio {
 
             clip = AudioSystem.getClip();
             clip.open(audioStream);
+            clip.addLineListener(event -> {
+
+            });
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
@@ -21,15 +24,11 @@ public class Audio {
 
     public void tocar() {
         if (clip != null) {
+            if (clip.isRunning()){
+                clip.stop();
+            } // coloquei essa condição para poder para o audio se ele estiver rodando ainda
             clip.setFramePosition(0); // Reinicia o áudio do início
             clip.start();
         }
     }
-
-    public void liberar() {
-        if (clip != null) {
-            clip.close();
-        }
-    }
-
 }
