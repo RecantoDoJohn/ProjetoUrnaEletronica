@@ -9,7 +9,7 @@ public class TelaHorario extends InterfaceGenerica {
 
     public TelaHorario(Eleicao eleicao) {
         super(eleicao);
-        this.texto.setText("Hora de finalizar");
+        this.texto.setText("Hora de finalizar\n(HH:MM)");
         this.botao.setText("Enviar");
         this.botao.addActionListener(e -> botaoHora());
     }
@@ -19,9 +19,10 @@ public class TelaHorario extends InterfaceGenerica {
 
         if (textCampo != null) {
             try {
-                int hora = Integer.parseInt(textCampo);
-                if (hora > LocalTime.now().getHour()) {
-                    eleicao.definirHorarioDeFechamento(hora);
+                int hora = Integer.parseInt(textCampo.substring(0, 2));
+                int minutos = Integer.parseInt(textCampo.substring(3, 5));
+                if (hora >= LocalTime.now().getHour() && minutos > LocalTime.now().getMinute()) {
+                    eleicao.definirHorarioDeFechamento(hora, minutos);
                     eleicao.abrirEleicao();
                     this.dispose();
                     JOptionPane.showMessageDialog(null, "✅ Votação Aberta!", "Informação", JOptionPane.INFORMATION_MESSAGE);

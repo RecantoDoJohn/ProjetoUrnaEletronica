@@ -20,7 +20,7 @@ public class TeclaNum extends JButton implements ActionListener {
     private Eleicao eleicao;
     private Audio audioBip;
 
-    public TeclaNum(String numero, CampoNumero campoNumero, FotoCandidato fotoCandidato, TelaCadidato telaCandidato, Eleicao eleicao, String caminhoAudio) {
+    public TeclaNum(String numero, CampoNumero campoNumero, FotoCandidato fotoCandidato, TelaCadidato telaCandidato, Eleicao eleicao) {
         super(numero);
 
         this.eleicao = eleicao;
@@ -35,7 +35,7 @@ public class TeclaNum extends JButton implements ActionListener {
         this.setBorder(new LineBorder(Color.DARK_GRAY, 1));
         this.addActionListener(this);
 
-        this.audioBip = new Audio(caminhoAudio);
+        this.audioBip = new Audio("C:\\Users\\teres\\Documents\\Java\\ProjetoUrna\\ProjetoUrnaEletronica\\src\\View\\audio\\bipTecla.wav");
 
     }
 
